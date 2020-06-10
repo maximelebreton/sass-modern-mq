@@ -8,7 +8,5 @@ mdi.use(markdownItHighlight);
 export default function() {
   var result = mdi.render(mdfile);
 
-  return `<div class="markdown-body">
-  ${result}
-  </div>`;
+  return `<div class="markdown-body">${result}</div>`;
 }
