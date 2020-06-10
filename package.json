@@ -8,6 +8,7 @@
     "build": "parcel build index.html --no-content-hash"
   },
   "dependencies": {
+    "autoprefixer": "9.8.0",
     "markdown-it": "11.0.0",
     "markdown-it-highlight": "0.2.0"
   },
