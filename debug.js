@@ -7,7 +7,20 @@ export class debugSassMqRatio {
     this.cssVarNames = this.getCssVarNames();
     if (this.isDebug()) {
       console.log(this.cssVarNames);
+
       this.addHtmlToBody(this.getDebugHtml());
+
+      if (module.hot) {
+        module.hot.accept();
+
+        module.hot.dispose(function() {
+          const mqElement = document.querySelector(".mq-container");
+          if (mqElement) {
+            mqElement.remove();
+          }
+          // le module est sur le point d'être remplacé
+        });
+      }
     }
   }
 
