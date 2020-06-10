@@ -1,7 +1,6 @@
 import mdfile from "../../README.md";
 import markdownIt from "markdown-it";
 import markdownItHighlight from "markdown-it-highlight";
-import "markdown-it-highlight/dist/index.css";
 
 const mdi = markdownIt({
   html: true
