@@ -1,4 +1,4 @@
-import mdfile from "./README.md";
+import mdfile from "/README.md";
 import markdownIt from "markdown-it";
 import markdownItHighlight from "markdown-it-highlight";
 import "markdown-it-highlight/dist/index.css";

@@ -1,4 +1,4 @@
-export default class debugSassMqRatio {
+export class debugSassMqRatio {
   constructor() {
     this.init();
   }
@@ -81,3 +81,5 @@ export default class debugSassMqRatio {
     return rules;
   }
 }
+
+export default new debugSassMqRatio();

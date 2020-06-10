@@ -1,6 +1,4 @@
-import DebugResponsive from "./debug";
-import getMarkdownHtml from "./markdown";
+import "./src/debug";
+import getMarkdownHtml from "./src/js/markdown";
 
 document.body.innerHTML += getMarkdownHtml();
-
-new DebugResponsive();
