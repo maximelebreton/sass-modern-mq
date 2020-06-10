@@ -41,7 +41,7 @@ _\*`landscape` doesn't have `<`, `<=`, & `>=` operators, and \*\*`portrait` does
 
 ## Debug helper!
 
-Look at the right top of [this page](https://xbgnk.csb.app/) and **resize your window**, the **debug helper** tells you instantly wich breakpoints are active (and that's pure HTML/CSS)!
+Look at the right top of the [codesandbox demo](https://codesandbox.io/s/github/maximelebreton/sass-modern-mq) and **resize the window**, the **debug helper** tells you instantly wich breakpoints are active (and that's pure HTML/CSS)!
 
 ```scss
 // in your .scss file
