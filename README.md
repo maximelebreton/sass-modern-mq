@@ -21,7 +21,7 @@ _\*`landscape` doesn't have `<`, `<=`, & `>=` operators, and \*\*`portrait` does
 ## Usage
 
 ```scss
-@import "sass-modern-mq";
+@import "sass-modern-mq/sass-modern-mq.scss";
 
 .my-class {
   @include mq("square") {
