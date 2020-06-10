@@ -83,7 +83,7 @@ As a senior **webdesigner and front-end developper**, and after integrating many
 
 > Every resolution cases can fit in 3 types: **Landscape**, **Square** and **Portrait**
 
-That we can call, a **ratio-based** approach.
+Wich is a **ratio-based** approach.
 
 So now I try to think my design layouts with these 3 types in mind, and I hope this will be relevant for you!
 
@@ -107,8 +107,4 @@ Instead of the classical **width-based** approach:
 
 - Write tests (any help is welcome!)
 - Check browser compatibilty, but probably [98%](https://caniuse.com/#feat=css-mediaqueries)?
-- Thanks, inspiration
-
-```
-
-```
+- Thanks
