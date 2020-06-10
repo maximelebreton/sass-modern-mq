@@ -41,6 +41,8 @@ _\*`landscape` doesn't have `<`, `<=`, & `>=` operators, and \*\*`portrait` does
 
 ## Debug helper!
 
+<img style="max-width: 81px; border-radius: 2px; margin-left: 1em; float: right;" src="mq-debug-helper-@2x.png" />
+
 Look at the right top of the [codesandbox demo](https://codesandbox.io/s/github/maximelebreton/sass-modern-mq) and **resize the window**, the **debug helper** tells you instantly wich breakpoints are active (and that's pure HTML/CSS)!
 
 ```scss
