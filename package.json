@@ -1,0 +1,19 @@
+{
+  "name": "sass-mq-ratio",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.html",
+  "scripts": {
+    "start": "parcel index.html --open",
+    "build": "parcel build index.html"
+  },
+  "dependencies": {
+    "markdown-it": "11.0.0",
+    "markdown-it-highlight": "0.2.0"
+  },
+  "devDependencies": {
+    "parcel-bundler": "^1.6.1",
+    "sass": "1.26.5"
+  },
+  "keywords": []
+}

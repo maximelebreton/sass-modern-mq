@@ -1,0 +1,46 @@
+$mq-small:  320;
+$mq-medium:  567;
+$mq-large: 960;
+$mq-xlarge: 1280;
+
+
+$portrait-ratio-width: 10 !default;
+$portrait-ratio-height: 8 !default;
+
+$landscape-ratio-width: 6 !default;
+$landscape-ratio-height: 8 !default;
+
+$portrait-ratio: $portrait-ratio-width / $portrait-ratio-height !default;
+$landscape-ratio: $landscape-ratio-width / $landscape-ratio-height !default;
+$square-ratio: 1 / 1 !default;
+
+$portrait-string-ratio: toString("#{$portrait-ratio-width}/#{$portrait-ratio-height}") !default;
+$landscape-string-ratio: toString("#{$landscape-ratio-width}/#{$landscape-ratio-height}") !default;
+$square-string-ratio: "1/1" !default;
+
+$mq-breakpoints: (
+  landscape: "(min-aspect-ratio:#{$portrait-string-ratio})",
+  square: "(min-aspect-ratio:#{$landscape-string-ratio}) and (max-aspect-ratio:#{$portrait-string-ratio})",
+  portrait: "(max-aspect-ratio:#{$landscape-string-ratio})",
+
+  //landscape: "(orientation: landscape)",
+  '>landscape': "(max-aspect-ratio:#{$portrait-string-ratio})",
+  '!landscape': "(max-aspect-ratio:#{$portrait-string-ratio})",
+
+  '>square':  "(max-aspect-ratio:#{$landscape-string-ratio})",
+  '>=square': "(max-aspect-ratio:#{$portrait-string-ratio})",
+  '<square': "(min-aspect-ratio:#{$portrait-string-ratio})",
+  '<=square': "(min-aspect-ratio:#{$landscape-string-ratio})",
+
+  //portrait: "(orientation: portrait)",
+  '<portrait': "(min-aspect-ratio:#{$landscape-string-ratio})",
+  '!portrait': "(min-aspect-ratio:#{$landscape-string-ratio})",
+
+
+
+  // small-width:  "(max-width: #{$mq-medium - 1}px)",
+  // medium-width:  "(min-width: #{$mq-medium}px) and (max-width: #{$mq-large - 1}px)",
+  // large-width: "(min-width: #{$mq-large}px) and (max-width: #{$mq-xlarge - 1}px)",
+  // xlarge-width: "(min-width: #{$mq-xlarge}px)",
+
+) !default;

@@ -1,0 +1,31 @@
+@function str-replace($string, $search, $replace: '') {
+  $index: str-index($string, $search);
+
+  @if $index {
+    @return str-slice($string, 1, $index - 1) + $replace + str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+  }
+
+  @return $string;
+}
+
+@function rename($value) {
+  $renamed-value: $value;
+  $renamed-value: str-replace($renamed-value, '>', 'greater-');
+  $renamed-value: str-replace($renamed-value, '<', 'less-');
+  $renamed-value: str-replace($renamed-value, '=', 'equal-');
+  $renamed-value: str-replace($renamed-value, '!', 'not-');
+  @return $renamed-value;
+}
+
+
+@function toString($value) {
+  @return $value + unquote("");
+}
+
+@function mq-get-breakpoint($name, $breakpoints: $mq-breakpoints) {
+  @if map-has-key($breakpoints, $name) {
+      @return map-get($breakpoints, $name);
+  } @else {
+      @warn "Breakpoint #{$name} wasn't found in $breakpoints.";
+  }
+}
