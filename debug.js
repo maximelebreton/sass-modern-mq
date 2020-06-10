@@ -12,7 +12,7 @@ export class debugSassMqRatio {
   }
 
   isDebug() {
-    return this.cssVarNames.includes("--mq-debug-responsive");
+    return this.cssVarNames.includes("--mq-debug");
   }
 
   getDebugHtml() {

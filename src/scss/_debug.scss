@@ -1,7 +1,7 @@
-@if $debugResponsive {
+@if $mq-debug {
 
   :root {
-    --mq-debug-responsive: true;
+    --mq-debug: true;
     @each $screen, $size in $mq-breakpoints {
     --mq-#{rename($screen)}: true;
     }
@@ -108,7 +108,7 @@
 //   @media #{$size} {
 //     // Debug message.
 //     // Shows your current "screen size" on the top right corner.
-//     @if $debugResponsive {
+//     @if $mq-debug {
 //       body:before {
         
 //        content: "#{$screen} screen";

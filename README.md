@@ -39,13 +39,23 @@ _\*`landscape` doesn't have `<`, `<=`, & `>=` operators, and \*\*`portrait` does
 }
 ```
 
-## Resize your window !
+## Debug helper!
 
-Look at the right top of this page and **resize your window**, the **debug helper** tells you instantly wich breakpoints are active (and that's pure CSS)!
+Look at the right top of [this page](https://xbgnk.csb.app/) and **resize your window**, the **debug helper** tells you instantly wich breakpoints are active (and that's pure HTML/CSS)!
+
+```scss
+// in your .scss file
+$mq-debug: true;
+```
+
+```js
+// in your .js file (it just adds dynamicly the HTML markup)
+import "sass-modern-mq/debug.js";
+```
 
 ## Why 'modern'?
 
-Because with modern devices, the paradigm as changed!  
+Because with modern devices, the paradigm as changed!
 The current CSS/Sass libraries base their **breakpoints on the device width**, wich is (for me) **not relevant anymore**.
 
 If we take [Bootstrap](https://github.com/twbs/bootstrap), one of the most popular CSS library, their default breakpoints are `xs: 0`,
@@ -77,7 +87,7 @@ That we can call, a **ratio-based** approach.
 
 So now I try to think my design layouts with these 3 types in mind, and I hope this will be relevant for you!
 
-## How it's work?
+## How it works?
 
 In CSS Media Queries spec, we have [aspect-ratio](https://developer.mozilla.org/fr/docs/Web/CSS/@media/aspect-ratio).
 
@@ -98,3 +108,7 @@ Instead of the classical **width-based** approach:
 - Write tests (any help is welcome!)
 - Check browser compatibilty, but probably [98%](https://caniuse.com/#feat=css-mediaqueries)?
 - Thanks, inspiration
+
+```
+
+```
