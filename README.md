@@ -21,7 +21,7 @@ _\*`landscape` doesn't have `<`, `<=`, & `>=` operators, and \*\*`portrait` does
 ## Usage
 
 ```scss
-@import "sass-modern-mq/sass-modern-mq.scss";
+@import "sass-modern-mq/mq.scss";
 
 .my-class {
   @include mq("square") {
@@ -97,3 +97,4 @@ Instead of the classical **width-based** approach:
 
 - Write tests (any help is welcome!)
 - Check browser compatibilty, but probably [98%](https://caniuse.com/#feat=css-mediaqueries)?
+- Thanks, inspiration
