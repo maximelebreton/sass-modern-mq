@@ -1,3 +1,4 @@
+
 @function str-replace($string, $search, $replace: '') {
   $index: str-index($string, $search);
 
@@ -17,9 +18,91 @@
   @return $renamed-value;
 }
 
+@function stringRatio($value) {
+  $stringifiedRatio: str-replace(toString($value), " ", "");
+  @return $stringifiedRatio;
+}
+
 
 @function toString($value) {
   @return $value + unquote("");
+}
+
+@function str-split($string, $separator) {
+  // empty array/list
+  $split-arr: ();
+  // first index of separator in string
+  $index : str-index($string, $separator);
+  // loop through string
+  @while $index != null {
+      // get the substring from the first character to the separator
+      $item: str-slice($string, 1, $index - 1);
+      // push item to array
+      $split-arr: append($split-arr, $item);
+      // remove item and separator from string
+      $string: str-slice($string, $index + 1);
+      // find new index of separator
+      $index : str-index($string, $separator);
+  }
+  // add the remaining string to list (the last item)
+  $split-arr: append($split-arr, $string);
+
+  @return $split-arr;
+}
+
+@function mq-transform($payload) {
+  
+  $list: ();
+
+  
+  
+  //@warn $payload;
+    @each $word in $payload {    
+      
+      @if (str-index($word, " and ") != null) {
+        $split-words: str-split($word, " ");
+        
+        $z: ();
+        @each $w in $split-words {
+          
+          @if ($w == "and") { 
+            $z: append($z, unquote($w), space);
+          } @else {
+
+            @each $key, $value in $mq-breakpoints {
+              @if ($w == $key) {
+
+                $b: mq-get-breakpoint($w);
+                $z: append($z, unquote($b), space);
+              }
+            }
+          }
+         
+        }
+         
+        $z-string: join($z, unquote(""));
+        $list: append($list, $z-string, comma);
+
+      } @else {
+
+        @each $key, $value in $mq-breakpoints {
+        
+          @if ($word == $key) {
+            $breakpoint: mq-get-breakpoint($word);
+            //@warn $breakpoint;
+            $list: append($list, unquote($breakpoint), comma);
+          }
+        }
+
+      }
+
+  }
+
+  @warn $list;
+  
+
+  @return $list;
+
 }
 
 @function mq-get-breakpoint($name, $breakpoints: $mq-breakpoints) {

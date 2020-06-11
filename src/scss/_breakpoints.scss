@@ -3,38 +3,37 @@ $mq-medium:  567;
 $mq-large: 960;
 $mq-xlarge: 1280;
 
+$landscape-ratio-width: 4 !default;
+$landscape-ratio-height: 3 !default;
+$landscape-min-ratio: toString($landscape-ratio-width)/toString($landscape-ratio-height);
+$landscape-max-ratio: "1000/1" !default;
 
-$portrait-ratio-width: 10 !default;
-$portrait-ratio-height: 8 !default;
-
-$landscape-ratio-width: 6 !default;
-$landscape-ratio-height: 8 !default;
+$portrait-ratio-width: 4 !default;
+$portrait-ratio-height: 5 !default;
+$portrait-min-ratio: toString($portrait-ratio-width)/toString($portrait-ratio-height);
+$portrait-max-ratio: "1/1000" !default;
 
 $portrait-ratio: $portrait-ratio-width / $portrait-ratio-height !default;
 $landscape-ratio: $landscape-ratio-width / $landscape-ratio-height !default;
-$square-ratio: 1 / 1 !default;
-
-$portrait-string-ratio: toString("#{$portrait-ratio-width}/#{$portrait-ratio-height}") !default;
-$landscape-string-ratio: toString("#{$landscape-ratio-width}/#{$landscape-ratio-height}") !default;
-$square-string-ratio: "1/1" !default;
 
 $mq-breakpoints: (
-  landscape: "(min-aspect-ratio:#{$portrait-string-ratio})",
-  square: "(min-aspect-ratio:#{$landscape-string-ratio}) and (max-aspect-ratio:#{$portrait-string-ratio})",
-  portrait: "(max-aspect-ratio:#{$landscape-string-ratio})",
+  landscape: "(min-aspect-ratio: #{$landscape-min-ratio})",
+  square: "(min-aspect-ratio:#{$portrait-min-ratio}) and (max-aspect-ratio:#{$landscape-min-ratio})",
+  portrait: "(max-aspect-ratio:#{$portrait-min-ratio})",
 
   //landscape: "(orientation: landscape)",
-  '>landscape': "(max-aspect-ratio:#{$portrait-string-ratio})",
-  '!landscape': "(max-aspect-ratio:#{$portrait-string-ratio})",
+  '>landscape': "(max-aspect-ratio:#{$landscape-min-ratio})",
+  // '!landscape': "(not min-aspect-ratio: #{$landscape-min-ratio})",
 
-  '>square':  "(max-aspect-ratio:#{$landscape-string-ratio})",
-  '>=square': "(max-aspect-ratio:#{$portrait-string-ratio})",
-  '<square': "(min-aspect-ratio:#{$portrait-string-ratio})",
-  '<=square': "(min-aspect-ratio:#{$landscape-string-ratio})",
+  '>square':  "(max-aspect-ratio:#{$portrait-min-ratio})",
+  '>=square': "(max-aspect-ratio:#{$landscape-min-ratio})",
+  '<square': "(min-aspect-ratio:#{$landscape-min-ratio})",
+  '<=square': "(min-aspect-ratio:#{$portrait-min-ratio})",
+  // '!square': "(not min-aspect-ratio:#{$portrait-min-ratio}) and (not max-aspect-ratio:#{$landscape-min-ratio})",
 
   //portrait: "(orientation: portrait)",
-  '<portrait': "(min-aspect-ratio:#{$landscape-string-ratio})",
-  '!portrait': "(min-aspect-ratio:#{$landscape-string-ratio})",
+  '<portrait': "(min-aspect-ratio:#{$portrait-min-ratio})"
+  // '!portrait': "(not max-aspect-ratio:#{$portrait-min-ratio})",
 
 
 

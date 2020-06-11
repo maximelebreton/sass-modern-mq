@@ -10,9 +10,9 @@
 
 _`landscape` is the lowest breakpoint\*, and `portrait` is the highest\*\*, **keep this order in mind** to understand this library_
 
-### Combinable with 5 operators\*
+### Combinable with 4 operators\*
 
-`>`, `<`, `>=`, `<=`, `!`
+`>`, `<`, `>=`, `<=`
 
 examples: `>landscape`, `<=square` or `!portrait`
 
@@ -24,17 +24,17 @@ _\*`landscape` doesn't have `<`, `<=`, & `>=` operators, and \*\*`portrait` does
 @import "sass-modern-mq/mq.scss";
 
 .my-class {
-  @include mq("square") {
-    // only for square
+  @include mq("landscape") {
+    // for landscape only
   }
   @include mq("<portrait") {
-    // only for less than portrait
+    // for square and landscape
   }
-  @include mq(">=landscape") {
-    // only for greater or equal than landscape
+  @include mq(">=square") {
+    // for square and portrait
   }
-  @include mq("!landscape") {
-    // for all except landscape
+  @include mq("portrait", "landscape") {
+    // for portrait and landscape
   }
 }
 ```

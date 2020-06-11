@@ -51,7 +51,7 @@
     vertical-align: middle;
     margin-left: 25em;
     opacity: 0.25;
-    width: 100em;
+    
   }
 
 
@@ -60,7 +60,9 @@
 
   .mq-portrait-ratio {
     @extend .mq-ratio-model;
-    padding-bottom: #{($portrait-ratio * 100)}em;
+    $size: 100em;
+    width: #{($portrait-ratio * $size)};
+    height: $size;
     background-color: black;
     @include mq('portrait') {
       opacity: 1;
@@ -68,7 +70,9 @@
   }
   .mq-square-ratio {
     @extend .mq-ratio-model;
-    padding-bottom: 100em;
+    $size: 100em;
+    width: $size;
+    height: $size;
     background-color: black;
     position: relative;
     @include mq('square') {
@@ -77,7 +81,9 @@
   }
   .mq-landscape-ratio {
     @extend .mq-ratio-model;
-    padding-bottom: #{($landscape-ratio * 100)}em;
+    $size: 100em;
+    width: #{($landscape-ratio * $size)};
+    height: $size;
     background-color: black;
     @include mq('landscape') {
       opacity: 1;
@@ -90,6 +96,12 @@
       @include mq($screen) {
         content: "#{$screen}";
       }
+    }
+  }
+  
+  body {
+    @include mq('portrait') {
+      background-color: red;
     }
   }
 
