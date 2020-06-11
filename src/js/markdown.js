@@ -25,7 +25,7 @@ const highlight = function(str, lang) {
   return ""; // use external default escaping
 };
 
-const mdi = markdownIt({
+const mdi = new markdownIt({
   html: true,
   highlight: highlight
 });
