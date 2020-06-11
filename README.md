@@ -65,7 +65,7 @@ import "sass-modern-mq/debug.js";
 
 ## Play now on Codesandbox!
 
-<iframe
+<iframe loading="lazy"
      src="https://codesandbox.io/embed/sass-modern-mq-playground-0sqv2?fontsize=14&hidenavigation=1&module=%2Fsrc%2Fstyles.scss&theme=dark"
      style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
      title="Sass Modern MQ Playground"
