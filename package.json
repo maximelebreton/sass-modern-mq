@@ -1,6 +1,6 @@
 {
   "name": "sass-modern-mq",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "description": "",
   "main": "index.html",
   "scripts": {
@@ -9,8 +9,9 @@
   },
   "dependencies": {
     "autoprefixer": "9.8.0",
-    "markdown-it": "11.0.0",
-    "markdown-it-highlight": "0.2.0"
+    "github-markdown-css": "4.0.0",
+    "highlight.js": "10.0.3",
+    "markdown-it": "11.0.0"
   },
   "devDependencies": {
     "parcel-bundler": "^1.6.1",
