@@ -12,26 +12,26 @@ hljs.registerLanguage("javascript", javascript);
 hljs.registerLanguage("scss", scss);
 hljs.registerLanguage("css", css);
 
-const highlight = function(str, lang) {
-  if (lang && hljs.getLanguage(lang)) {
-    try {
-      return (
-        '<pre class="hljs"><code>' +
-        hljs.highlight(lang, str, true).value +
-        "</code></pre>"
-      );
-    } catch (__) {}
-  }
+// const highlight = function(str, lang) {
+//   if (lang && hljs.getLanguage(lang)) {
+//     try {
+//       return hljs.highlight(lang, str).value;
+//     } catch (__) {}
+//   }
 
-  return (
-    '<pre class="hljs"><code>' + mdi.utils.escapeHtml(str) + "</code></pre>"
-  );
-};
+//   return ""; // use external default escaping
+// };
 
 const mdi = new markdownIt({
-  html: true,
-  highlight
+  html: true
+  //highlight: highlight
 });
+
+export const runHighlight = function() {
+  document.querySelectorAll("pre code").forEach(block => {
+    hljs.highlightBlock(block);
+  });
+};
 
 export default function() {
   var result = mdi.render(mdfile);
