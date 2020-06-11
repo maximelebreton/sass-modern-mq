@@ -47,11 +47,11 @@ yarn add sass-modern-mq
 }
 ```
 
-## Debug helper!
+## Debug helper
 
 <!-- <img style="max-width: 81px; border-radius: 2px; margin-left: 1em; float: right;" src="mq-debug-helper-@2x.png" /> -->
 
-Look at the right top of the [codesandbox demo](https://codesandbox.io/s/sass-modern-mq-playground-0sqv2?fontsize=14&hidenavigation=1&theme=dark) and **resize the window**, the **debug helper** tells you instantly wich breakpoints are active (and that's pure HTML/CSS)!
+Look at the right top of the [Codesandbox playground](https://codesandbox.io/s/sass-modern-mq-playground-0sqv2?fontsize=14&hidenavigation=1&module=%2Fsrc%2Fstyles.scss&theme=dark) and **resize the window**, the **debug helper** tells you instantly wich breakpoints are active!
 
 ```scss
 // in your .scss file
@@ -63,21 +63,15 @@ $mq-debug: true;
 import "sass-modern-mq/debug.js";
 ```
 
-## Play with it on Codesandbox!
+## Play now on Codesandbox!
 
 <iframe
-     src="https://codesandbox.io/embed/sass-modern-mq-playground-0sqv2?fontsize=14&hidenavigation=1&theme=dark"
+     src="https://codesandbox.io/embed/sass-modern-mq-playground-0sqv2?fontsize=14&hidenavigation=1&module=%2Fsrc%2Fstyles.scss&theme=dark"
      style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
      title="Sass Modern MQ Playground"
      allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
      sandbox="allow-autoplay allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
    ></iframe>
-
-<div style="display: none;">
-
-[![Edit Sass Modern MQ Playground](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/sass-modern-mq-playground-0sqv2?fontsize=14&hidenavigation=1&theme=dark)
-
-</div>
 
 ## Why 'modern'?
 
