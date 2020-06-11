@@ -39,9 +39,10 @@ mdi.use(markdownItAnchor, {
 });
 
 export const runHighlight = function() {
-  document.querySelectorAll("pre code").forEach(block => {
-    hljs.highlightBlock(block);
-  });
+  // document.querySelectorAll("pre code").forEach(block => {
+  //   hljs.highlightBlock(block);
+  // });
+  hljs.initHighlighting();
 };
 
 export default function() {
