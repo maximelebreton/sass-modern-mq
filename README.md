@@ -1,8 +1,8 @@
 # Media Queries for modern devices!
 
-**Sass Modern MQ** is a [Sass](http://sass-lang.com/) mixin that helps you to compose your css media queries in a simpler and accurate way
+> **Sass Modern MQ** is a mixin that helps you to create simple and accurate media queries by rethinking layouts as **landscape**, **square** and **portrait**
 
-### Only 3 breakpoints
+### 3 breakpoints, based on aspect-ratio
 
 `landscape`, `square`, `portrait`
 
@@ -14,7 +14,7 @@ _`landscape` is the lowest breakpoint\*, and `portrait` is the highest\*\*, **ke
 
 `>`, `<`, `>=`, `<=`
 
-examples: `>landscape`, `<=square` or `!portrait`
+examples: `>landscape`, or `<=square`
 
 _\*`landscape` doesn't have `<`, `<=`, & `>=` operators, and \*\*`portrait` doesn't have `>`, `>=`, & `<=` operators_
 
