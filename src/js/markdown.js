@@ -4,6 +4,7 @@ import hljs from "highlight.js/lib/core";
 import javascript from "highlight.js/lib/languages/javascript";
 import scss from "highlight.js/lib/languages/scss";
 import css from "highlight.js/lib/languages/css";
+import markdownItAnchor from "markdown-it-anchor";
 //import "highlight.js/styles/github.css";
 import "github-markdown-css";
 import "highlight.js/styles/atom-one-light.css";
@@ -25,6 +26,16 @@ hljs.registerLanguage("css", css);
 const mdi = new markdownIt({
   html: true
   //highlight: highlight
+});
+
+mdi.use(markdownItAnchor, {
+  level: 1,
+  // slugify: string => string,
+  permalink: true,
+  // renderPermalink: (slug, opts, state, permalink) => {},
+  permalinkClass: "header-anchor",
+  permalinkSymbol: "¶",
+  permalinkBefore: false
 });
 
 export const runHighlight = function() {
