@@ -13,8 +13,11 @@ hljs.registerLanguage("scss", scss);
 hljs.registerLanguage("css", css);
 
 const highlight = function(str, lang) {
+  console.log("highilight called");
   if (lang && hljs.getLanguage(lang)) {
+    console.log("highilight lang found");
     try {
+      console.log("highilight ok");
       return hljs.highlight(lang, str).value;
     } catch (__) {}
   }
