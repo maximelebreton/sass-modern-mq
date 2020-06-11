@@ -50,65 +50,91 @@
   @return $split-arr;
 }
 
-@function mq-transform($payload) {
+@function is-contain-space($value) {
   
-  $list: ();
+  $string: toString($value);
+   
+  @if (str-index($string, " ") != null) {
+    @return true;
+  } @else {
+    @return false;
+  }
+}
 
+@function is-contain-and($value) {
+  $string: toString($value);
+   
+  @if (str-index($string, " and ") != null) {
+    @return true;
+  } @else {
+    @return false;
+  }
+}
+
+@function mq-and-keywords($value) {
+  $dirty-keywords: str-split($value, " and ");
   
-  
-  //@warn $payload;
-    @each $word in $payload {    
-      
-      @if (str-index($word, " and ") != null) {
-        $split-words: str-split($word, " ");
+  $keywords: ();
+  @each $dirty-keyword in $dirty-keywords {
+    $keyword: str-replace($dirty-keyword, "and ", "");
+    $keywords: append($keywords, $keyword);
+  }
+  @return $keywords; 
+}
+
+@function mq-parse($keywords) {
+  //@warn $keywords;
+  $mq-list: ();
+  @each $keyword in $keywords {
         
-        $z: ();
-        @each $w in $split-words {
+    @if (mq-get-breakpoint($keyword)) {
+      $mq-list: append($mq-list, mq-get-breakpoint($keyword), comma);
+    } @else {
+      
+      @if (is-contain-and($keyword)) {
+        $raw-keywords: mq-and-keywords($keyword);
+        //$parsed-keywords: ();
+        $string-mq: "";
+        @each $raw-keyword in $raw-keywords {
+          $index: index($raw-keywords, $raw-keyword);
           
-          @if ($w == "and") { 
-            $z: append($z, unquote($w), space);
+          @if (mq-get-breakpoint($raw-keyword)) {
+            
+            $parsed-keyword: mq-get-breakpoint($raw-keyword);
+            //$parsed-keywords: append($parsed-keywords, $parsed-keyword);
+            @if ($index == 1) {
+              $string-mq: $string-mq + $parsed-keyword;
+            } @else {
+              $string-mq: $string-mq + " and " + $parsed-keyword;
+            }
           } @else {
-
-            @each $key, $value in $mq-breakpoints {
-              @if ($w == $key) {
-
-                $b: mq-get-breakpoint($w);
-                $z: append($z, unquote($b), space);
-              }
+            //$parsed-keywords: append($parsed-keywords, $raw-keyword);
+            @if ($index == 1) {
+              $string-mq: $string-mq + $raw-keyword;
+            } @else {
+              $string-mq: $string-mq + " and " + $raw-keyword;
             }
           }
-         
         }
-         
-        $z-string: join($z, unquote(""));
-        $list: append($list, $z-string, comma);
-
-      } @else {
-
-        @each $key, $value in $mq-breakpoints {
         
-          @if ($word == $key) {
-            $breakpoint: mq-get-breakpoint($word);
-            //@warn $breakpoint;
-            $list: append($list, unquote($breakpoint), comma);
-          }
-        }
-
+        //@return $string-mq;
+        $mq-list: append($mq-list, $string-mq, comma);
+      } @else {
+        //@return $keyword;
+        $mq-list: append($mq-list, $keyword, comma);
       }
-
+    } 
   }
-
-  //@warn $list;
-  
-
-  @return $list;
-
+  @debug $mq-list;
+  @return $mq-list;
 }
+
 
 @function mq-get-breakpoint($name, $breakpoints: $mq-breakpoints) {
   @if map-has-key($breakpoints, $name) {
       @return map-get($breakpoints, $name);
   } @else {
-      @warn "Breakpoint #{$name} wasn't found in $breakpoints.";
+    //@warn "Breakpoint #{$name} wasn't found in $breakpoints.";
+    @return false;
   }
 }

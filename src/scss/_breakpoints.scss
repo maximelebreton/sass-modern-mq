@@ -1,7 +1,8 @@
-$mq-small:  320;
-$mq-medium:  567;
-$mq-large: 960;
-$mq-xlarge: 1280;
+$mq-xsmall:  320;
+$mq-small:  567;
+$mq-medium:  960;
+$mq-large: 1280;
+$mq-xlarge: 1920;
 
 $landscape-ratio-width: 4 !default;
 $landscape-ratio-height: 3 !default;
@@ -23,23 +24,31 @@ $mq-breakpoints: (
 
   //landscape: "(orientation: landscape)",
   '>landscape': "(max-aspect-ratio:#{$landscape-min-ratio})",
-  // '!landscape': "(not min-aspect-ratio: #{$landscape-min-ratio})",
+  //'!landscape': "not (min-aspect-ratio: #{$landscape-min-ratio})",
 
   '>square':  "(max-aspect-ratio:#{$portrait-min-ratio})",
   '>=square': "(max-aspect-ratio:#{$landscape-min-ratio})",
   '<square': "(min-aspect-ratio:#{$landscape-min-ratio})",
   '<=square': "(min-aspect-ratio:#{$portrait-min-ratio})",
-  // '!square': "(not min-aspect-ratio:#{$portrait-min-ratio}) and (not max-aspect-ratio:#{$landscape-min-ratio})",
+  //'!square': "not screen and (min-aspect-ratio:#{$portrait-min-ratio}) and (not max-aspect-ratio:#{$landscape-min-ratio})",
 
   //portrait: "(orientation: portrait)",
   '<portrait': "(min-aspect-ratio:#{$portrait-min-ratio})"
-  // '!portrait': "(not max-aspect-ratio:#{$portrait-min-ratio})",
+  //'!portrait': "not screen and (max-aspect-ratio:#{$portrait-min-ratio})",
 
+  // 'retina': "(min-device-pixel-ratio: 2), (min-resolution: 192dpi), (min-resolution: 2dppx)",
+  // '!retina': "not screen and (min-device-pixel-ratio: 2), not screen and (min-resolution: 192dpi), not screen and (min-resolution: 2dppx)"
 
+  // xsmall-width:  "(max-width: #{$mq-xsmall - 1}px)",
+  // small-width:  "(min-width: #{$mq-xsmall}px) and (max-width: #{$mq-small - 1}px)",
+  // medium-width:  "(min-width: #{$mq-small}px) and (max-width: #{$mq-medium - 1}px)",
+  // large-width: "(min-width: #{$mq-medium}px) and (max-width: #{$mq-large - 1}px)",
+  // xlarge-width: "(min-width: #{$mq-large}px)",
 
-  // small-width:  "(max-width: #{$mq-medium - 1}px)",
-  // medium-width:  "(min-width: #{$mq-medium}px) and (max-width: #{$mq-large - 1}px)",
-  // large-width: "(min-width: #{$mq-large}px) and (max-width: #{$mq-xlarge - 1}px)",
-  // xlarge-width: "(min-width: #{$mq-xlarge}px)",
+  // xsmall-height:  "(max-height: #{$mq-xsmall - 1}px)",
+  // small-height:  "(min-height: #{$mq-xsmall}px) and (max-height: #{$mq-small - 1}px)"
+  // medium-height:  "(min-height: #{$mq-medium}px) and (max-height: #{$mq-large - 1}px)",
+  // large-height: "(min-height: #{$mq-large}px) and (max-height: #{$mq-xlarge - 1}px)",
+  // xlarge-height: "(min-height: #{$mq-xlarge}px)"
 
 ) !default;

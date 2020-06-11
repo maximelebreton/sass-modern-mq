@@ -3,7 +3,7 @@
   :root {
     --mq-debug: true;
     @each $screen, $size in $mq-breakpoints {
-    --mq-#{rename($screen)}: true;
+    --mq-#{rename($screen)}: $screen;
     }
   }
 
@@ -31,7 +31,6 @@
     // top: 1rem;
     // pointer-events: none;
   }
-
   
   .mq-rules {
 
@@ -54,10 +53,6 @@
     
   }
 
-
-
-
-
   .mq-portrait-ratio {
     @extend .mq-ratio-model;
     $size: 100em;
@@ -68,6 +63,7 @@
       opacity: 1;
     }
   }
+
   .mq-square-ratio {
     @extend .mq-ratio-model;
     $size: 100em;
@@ -79,6 +75,7 @@
       opacity: 1;
     }
   }
+
   .mq-landscape-ratio {
     @extend .mq-ratio-model;
     $size: 100em;
@@ -90,52 +87,15 @@
     }
   }
 
-
   @each $screen, $size in $mq-breakpoints {
+  
     .--mq-#{rename($screen)}::after {
       @include mq($screen) {
+        
         content: "#{$screen}";
       }
     }
   }
 
-
-
 }
 
-
-
-// @each $screen, $size in $mq-breakpoints {
-  
-//   // Getting current index value.
-//   $i: index(($mq-breakpoints), ($screen $size));
-//   // Setting "min-width" value based on "previous iteration value" + 1
-//   $minWidth: if($i - 1 > 0 , nth(map-values($mq-breakpoints), $i - 1), "min-width: 1px");
-
-//   @media #{$size} {
-//     // Debug message.
-//     // Shows your current "screen size" on the top right corner.
-//     @if $mq-debug {
-//       body:before {
-        
-//        content: "#{$screen} screen";
-      
-//       }
-//     }
-//   }
-// }
-
-
-  // body:before {
-  //   display: block;
-  //   position: fixed;
-  //   top: 0;
-  //   right: 0;
-    
-  //   padding: .3em .7em;
-  //   background: red;
-  //   color: white;
-  //   font-size: 1rem;
-  //   line-height: 1;
-  //   z-index: 9999;
-  // }

@@ -1,5 +1,5 @@
 @mixin mq($value...) {
-  @media #{mq-transform($value)} {
+  @media #{mq-parse($value)} {
         @content;
     }
   }

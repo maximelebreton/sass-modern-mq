@@ -6,7 +6,7 @@ export class debugSassMqRatio {
   init() {
     this.cssVarNames = this.getCssVarNames();
     if (this.isDebug()) {
-      console.log(this.cssVarNames);
+      //console.log(this.cssVarNames);
 
       this.addHtmlToBody(this.getDebugHtml());
 
@@ -25,6 +25,9 @@ export class debugSassMqRatio {
   }
 
   isDebug() {
+    console.warn(
+      "debug helper is active, you can disable it with $mq-debug: false;"
+    );
     return this.cssVarNames.includes("--mq-debug");
   }
 

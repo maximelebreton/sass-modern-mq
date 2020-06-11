@@ -42,7 +42,10 @@ yarn add sass-modern-mq
     // for square and portrait
   }
   @include mq("portrait", "landscape") {
-    // for portrait and landscape
+    // for portrait or landscape
+  }
+  @include mq("square and (min-device-pixel-ratio:2)") {
+    // you can combine it with standard media queries :)
   }
 }
 ```
