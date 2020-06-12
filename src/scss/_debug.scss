@@ -56,7 +56,7 @@
   .mq-portrait-ratio {
     @extend .mq-ratio-model;
     $size: 100em;
-    width: #{($portrait-ratio * $size)};
+    width: #{($mq-portrait-ratio * $size)};
     height: $size;
     background-color: black;
     @include mq('portrait') {
@@ -79,7 +79,7 @@
   .mq-landscape-ratio {
     @extend .mq-ratio-model;
     $size: 100em;
-    width: #{($landscape-ratio * $size)};
+    width: #{($mq-landscape-ratio * $size)};
     height: $size;
     background-color: black;
     @include mq('landscape') {

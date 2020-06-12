@@ -1,54 +1,77 @@
-$mq-xsmall:  320;
-$mq-small:  567;
-$mq-medium:  960;
-$mq-large: 1280;
-$mq-xlarge: 1920;
+$mq-xsmall:  320px;
+$mq-small:  567px;
+$mq-medium:  960px;
+$mq-large: 1280px;
+$mq-xlarge: 1920px;
 
-$landscape-ratio-width: 4 !default;
-$landscape-ratio-height: 3 !default;
-$landscape-min-ratio: toString($landscape-ratio-width)/toString($landscape-ratio-height);
-$landscape-max-ratio: "1000/1" !default;
+$mq-landscape-ratio-width: 4 !default;
+$mq-landscape-ratio-height: 3 !default;
+$mq-landscape-min-ratio: toString($mq-landscape-ratio-width)/toString($mq-landscape-ratio-height);
+$mq-landscape-max-ratio: "1000/1" !default;
 
-$portrait-ratio-width: 4 !default;
-$portrait-ratio-height: 5 !default;
-$portrait-min-ratio: toString($portrait-ratio-width)/toString($portrait-ratio-height);
-$portrait-max-ratio: "1/1000" !default;
+$mq-portrait-ratio-width: 4 !default;
+$mq-portrait-ratio-height: 5 !default;
+$mq-portrait-min-ratio: toString($mq-portrait-ratio-width)/toString($mq-portrait-ratio-height);
+$mq-portrait-max-ratio: "1/1000" !default;
 
-$portrait-ratio: $portrait-ratio-width / $portrait-ratio-height !default;
-$landscape-ratio: $landscape-ratio-width / $landscape-ratio-height !default;
+$mq-portrait-ratio: $mq-portrait-ratio-width / $mq-portrait-ratio-height !default;
+$mq-landscape-ratio: $mq-landscape-ratio-width / $mq-landscape-ratio-height !default;
+
+
+@function mq-from-width($px) {
+  @return "(min-width: #{px-to-em($px)})";
+};
+@function mq-to-width($px) {
+  @return "(max-width: #{px-to-em($px - 1px)})";
+};
+@function mq-from-to-width($from, $to) {
+  @return "#{mq-from-width($from)} and #{mq-to-width($to)}";
+};
+
+@function mq-from-height($px) {
+  @return "(min-height: #{px-to-em($px)})";
+};
+@function mq-to-height($px) {
+  @return "(max-height: #{px-to-em($px - 1px)})";
+};
+@function mq-from-to-height($from, $to) {
+  @return "#{mq-from-height($from)} and #{mq-to-height($to)}";
+};
 
 $mq-breakpoints: (
-  landscape: "(min-aspect-ratio: #{$landscape-min-ratio})",
-  square: "(min-aspect-ratio:#{$portrait-min-ratio}) and (max-aspect-ratio:#{$landscape-min-ratio})",
-  portrait: "(max-aspect-ratio:#{$portrait-min-ratio})",
+  landscape: "(min-aspect-ratio: #{$mq-landscape-min-ratio})",
+  square: "(min-aspect-ratio:#{$mq-portrait-min-ratio}) and (max-aspect-ratio:#{$mq-landscape-min-ratio})",
+  portrait: "(max-aspect-ratio:#{$mq-portrait-min-ratio})",
 
   //landscape: "(orientation: landscape)",
-  '>landscape': "(max-aspect-ratio:#{$landscape-min-ratio})",
-  //'!landscape': "not (min-aspect-ratio: #{$landscape-min-ratio})",
+  '>landscape': "(max-aspect-ratio:#{$mq-landscape-min-ratio})",
+  //'!landscape': "not (min-aspect-ratio: #{$mq-landscape-min-ratio})",
 
-  '>square':  "(max-aspect-ratio:#{$portrait-min-ratio})",
-  '>=square': "(max-aspect-ratio:#{$landscape-min-ratio})",
-  '<square': "(min-aspect-ratio:#{$landscape-min-ratio})",
-  '<=square': "(min-aspect-ratio:#{$portrait-min-ratio})",
-  //'!square': "not screen and (min-aspect-ratio:#{$portrait-min-ratio}) and (not max-aspect-ratio:#{$landscape-min-ratio})",
+  '>square':  "(max-aspect-ratio:#{$mq-portrait-min-ratio})",
+  '>=square': "(max-aspect-ratio:#{$mq-landscape-min-ratio})",
+  '<square': "(min-aspect-ratio:#{$mq-landscape-min-ratio})",
+  '<=square': "(min-aspect-ratio:#{$mq-portrait-min-ratio})",
+  //'!square': "not screen and (min-aspect-ratio:#{$mq-portrait-min-ratio}) and (not max-aspect-ratio:#{$mq-landscape-min-ratio})",
 
   //portrait: "(orientation: portrait)",
-  '<portrait': "(min-aspect-ratio:#{$portrait-min-ratio})"
-  //'!portrait': "not screen and (max-aspect-ratio:#{$portrait-min-ratio})",
+  '<portrait': "(min-aspect-ratio:#{$mq-portrait-min-ratio})"
+  //'!portrait': "not screen and (max-aspect-ratio:#{$mq-portrait-min-ratio})",
 
   // 'retina': "(min-device-pixel-ratio: 2), (min-resolution: 192dpi), (min-resolution: 2dppx)",
   // '!retina': "not screen and (min-device-pixel-ratio: 2), not screen and (min-resolution: 192dpi), not screen and (min-resolution: 2dppx)"
 
-  // xsmall-width:  "(max-width: #{$mq-xsmall - 1}px)",
-  // small-width:  "(min-width: #{$mq-xsmall}px) and (max-width: #{$mq-small - 1}px)",
-  // medium-width:  "(min-width: #{$mq-small}px) and (max-width: #{$mq-medium - 1}px)",
-  // large-width: "(min-width: #{$mq-medium}px) and (max-width: #{$mq-large - 1}px)",
-  // xlarge-width: "(min-width: #{$mq-large}px)",
+  // ,xsmall-width: mq-to-width($mq-xsmall)
+  // ,small-width: mq-from-to-width($mq-xsmall, $mq-small)
+  // ,medium-width: mq-from-to-width($mq-small, $mq-medium)
+  // ,large-width: mq-from-to-width($mq-medium, $mq-large)
+  // ,xlarge-width: mq-from-to-width($mq-large, $mq-xlarge)
+  // ,xxlarge-width: mq-from-width($mq-xlarge)
 
-  // xsmall-height:  "(max-height: #{$mq-xsmall - 1}px)",
-  // small-height:  "(min-height: #{$mq-xsmall}px) and (max-height: #{$mq-small - 1}px)"
-  // medium-height:  "(min-height: #{$mq-medium}px) and (max-height: #{$mq-large - 1}px)",
-  // large-height: "(min-height: #{$mq-large}px) and (max-height: #{$mq-xlarge - 1}px)",
-  // xlarge-height: "(min-height: #{$mq-xlarge}px)"
+  // ,xsmall-height: mq-to-height($mq-xsmall)
+  // ,small-height: mq-from-to-height($mq-xsmall, $mq-small)
+  // ,medium-height: mq-from-to-height($mq-small, $mq-medium)
+  // ,large-height: mq-from-to-height($mq-medium, $mq-large)
+  // ,xlarge-height: mq-from-to-height($mq-large, $mq-xlarge)
+  // ,xxlarge-height: mq-from-height($mq-xlarge)
 
 ) !default;

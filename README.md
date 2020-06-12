@@ -68,13 +68,14 @@ import "sass-modern-mq/debug.js";
 
 ## Play now on Codesandbox!
 
+<!--
 <iframe loading="lazy"
      src="https://codesandbox.io/embed/sass-modern-mq-playground-0sqv2?fontsize=14&hidenavigation=1&module=%2Fsrc%2Fstyles.scss&theme=dark"
      style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
      title="Sass Modern MQ Playground"
      allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
      sandbox="allow-autoplay allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
-   ></iframe>
+   ></iframe> -->
 
 ## Why 'modern'?
 
@@ -90,11 +91,13 @@ If we take [Bootstrap](https://github.com/twbs/bootstrap), one of the most popul
 
 But let's take some modern devices examples (thanks [screensiz.es](http://screensiz.es/)):
 
-- _Apple iPhone 7 plus_ is **_1080px_** width
+- [_iPhone X_](https://yesviz.com/devices/iphonex/) viewport's width is **_812px_** in landscape mode
 
-- _Apple Watch_ is **_324px_** width.
+- [_Apple Watch_](https://yesviz.com/devices/apple-watch-series-4-40mm/) viewport's width is **_197px_**.
 
-- _Apple iMac 27-inch_ is **_5120px_** width
+- [_Apple iMac 27-inch_](https://www.a2zwebhelp.com/media-width-for-responsive-design) viewport's width is **_2560px_**
+
+<small><i><b>Note:</b> I choose Apple devices because they are popular, not to promote them (I have a Dell computer and a Samsung smartphone!)</i></small>
 
 How can we handle these cases with **width-based** approach, when the lowest breakpoint for _Bootstrap_ is _576px_, and the highest is _1400px_, without complexity, and with accuracy?
 

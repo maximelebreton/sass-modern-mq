@@ -138,3 +138,20 @@
     @return false;
   }
 }
+
+@function strip-unit($number) {
+  @if type-of($number) == 'number' and not unitless($number) {
+    @return $number / ($number * 0 + 1);
+  }
+
+  @return $number;
+}
+
+// Converts pixels to em with $base-font-size
+// - https://gist.github.com/ijy/1441967
+@function px-to-em($target, $context: 16px) {
+  @if $target == 0 {
+    @return 0;
+  }
+  @return $target / $context * 1em;
+}
