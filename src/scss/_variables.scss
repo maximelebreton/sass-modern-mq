@@ -1,1 +1,20 @@
 $mq-debug: false !default;
+$mq-enable-ratio-breakpoints: true !default;
+$mq-enable-width-breakpoints: false !default;
+$mq-enable-height-breakpoints: false !default;
+$mq-enable-retina-breakpoints: false !default;
+
+
+$mq-landscape-ratio-width: 4 !default;
+$mq-landscape-ratio-height: 3 !default;
+$mq-landscape-max-ratio: "1000/1" !default;
+
+$mq-portrait-ratio-width: 4 !default;
+$mq-portrait-ratio-height: 5 !default;
+$mq-portrait-max-ratio: "1/1000" !default;
+
+$mq-xsmall:  320px !default;
+$mq-small:  567px !default;
+$mq-medium:  960px !default;
+$mq-large: 1280px !default;
+$mq-xlarge: 1920px !default;

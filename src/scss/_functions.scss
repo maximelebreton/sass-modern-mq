@@ -139,6 +139,15 @@
   }
 }
 
+@function mq-get($name, $list) {
+  @if map-has-key($list, $name) {
+      @return map-get($list, $name);
+  } @else {
+    //@warn "List #{$name} wasn't found in $list.";
+    @return false;
+  }
+}
+
 @function strip-unit($number) {
   @if type-of($number) == 'number' and not unitless($number) {
     @return $number / ($number * 0 + 1);
@@ -154,4 +163,123 @@
     @return 0;
   }
   @return $target / $context * 1em;
+}
+
+
+@function get-map-index($map, $value) {
+  $list: map-keys($map);
+  $index: index($list, $value);
+  @return $index;
+}
+@function get-map-index-key($map, $index) {
+  $list: map-keys($map);
+  $key: nth($list, $index);
+  @return $key;
+}
+@function get-map-index-value($map, $index) {
+  $key: get-map-index-key($map, $index);
+  $value: map-get($map, $key);
+  @return $value;
+}
+
+@function mq-width-less-than($size-key) {
+  $index: get-map-index($mq-sizes, $size-key);
+  $size-value: get-map-index-value($mq-sizes, $index - 1);
+  @return mq-to-width($size-value);
+}
+@function mq-width-less-equal-than($size-key) {
+  $size-value: map-get($mq-sizes, $size-key);
+  @return mq-to-width($size-value);
+}
+@function mq-width-greater-equal-than($size-key) {
+  $index: get-map-index($mq-sizes, $size-key);
+  $size-value: get-map-index-value($mq-sizes, $index - 1);
+  @return mq-from-width($size-value);
+}
+@function mq-width-greater-than($size-key) {
+  $size-value: map-get($mq-sizes, $size-key);
+  @return mq-from-width($size-value);
+}
+@function mq-width-equal($size-key) {
+  $index: get-map-index($mq-sizes, $size-key);
+  $from-size-value: get-map-index-value($mq-sizes, $index - 1);
+  $to-size-value: get-map-index-value($mq-sizes, $index);
+  @return mq-from-to-width($from-size-value, $to-size-value);
+}
+
+
+@function mq-height-less-than($size-key) {
+  $index: get-map-index($mq-sizes, $size-key);
+  $size-value: get-map-index-value($mq-sizes, $index - 1);
+  @return mq-to-height($size-value);
+}
+@function mq-height-less-equal-than($size-key) {
+  $size-value: map-get($mq-sizes, $size-key);
+  @return mq-to-height($size-value);
+}
+@function mq-height-greater-equal-than($size-key) {
+  $index: get-map-index($mq-sizes, $size-key);
+  $size-value: get-map-index-value($mq-sizes, $index - 1);
+  @return mq-from-height($size-value);
+}
+@function mq-height-greater-than($size-key) {
+  $size-value: map-get($mq-sizes, $size-key);
+  @return mq-from-height($size-value);
+}
+@function mq-height-equal($size-key) {
+  $index: get-map-index($mq-sizes, $size-key);
+  $from-size-value: get-map-index-value($mq-sizes, $index - 1);
+  $to-size-value: get-map-index-value($mq-sizes, $index);
+  @return mq-from-to-height($from-size-value, $to-size-value);
+}
+
+
+
+@function mq-from-width($px) {
+  @return "(min-width: #{px-to-em($px)})";
+};
+@function mq-to-width($px) {
+  @return "(max-width: #{px-to-em($px - 1px)})";
+};
+@function mq-from-to-width($from, $to) {
+  @return "#{mq-from-width($from)} and #{mq-to-width($to)}";
+};
+
+@function mq-from-height($px) {
+  @return "(min-height: #{px-to-em($px)})";
+};
+@function mq-to-height($px) {
+  @return "(max-height: #{px-to-em($px - 1px)})";
+};
+@function mq-from-to-height($from, $to) {
+  @return "#{mq-from-height($from)} and #{mq-to-height($to)}";
+};
+
+
+@function map-collection($maps...) {
+  $collection: ();
+
+  @each $map in $maps {
+    $collection: map-merge($collection, $map);
+  }
+  @return $collection;
+}
+
+
+@function mq-get-enabled-breakpoints() {
+  $enabled-breakpoints: ();
+  @if ($mq-enable-ratio-breakpoints) {
+    $enabled-breakpoints: map-merge($enabled-breakpoints, $mq-ratio-breakpoints);
+  }
+  @if ($mq-enable-width-breakpoints) {
+    $enabled-breakpoints: map-merge($enabled-breakpoints, $mq-width-breakpoints);
+  }
+  @if ($mq-enable-height-breakpoints) {
+    $enabled-breakpoints: map-merge($enabled-breakpoints, $mq-height-breakpoints);
+  }
+  @if ($mq-enable-retina-breakpoints) {
+    $enabled-breakpoints: map-merge($enabled-breakpoints, $mq-retina-breakpoints);
+  }
+  
+  @return $enabled-breakpoints;
 }

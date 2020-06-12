@@ -2,13 +2,13 @@
 
 > **Sass Modern MQ** is a mixin that helps you to create simple and accurate media queries by rethinking layouts as **landscape**, **square** and **portrait**
 
-### 3 breakpoints, based on aspect-ratio
+### 3 main breakpoints, based on aspect-ratio
 
 `landscape`, `square`, `portrait`
 
 `███` → `▐█▌` → `█`
 
-_`landscape` is the lowest breakpoint\*, and `portrait` is the highest\*\*, **keep this order in mind** to understand this library_
+_`landscape` is the lowest breakpoint\*, and `portrait` is the highest\*\*, **keep this order in mind**_
 
 ### Combinable with 4 operators\*
 
@@ -50,6 +50,31 @@ yarn add sass-modern-mq
 }
 ```
 
+## Optional breakpoints: width, height and retina
+
+**Ratios breakpoints** are the main purpose of this library, and in most of the cases it's enough.  
+But if needed, you can **enable additional width, height and retina breakpoints**
+
+```scss
+$mq-enable-width-breakpoints: true;
+$mq-enable-height-breakpoints: true;
+$mq-enable-retina-breakpoints: true;
+
+.my-class {
+  @include mq("retina") {
+    // for retina screens
+  }
+  @include mq("width=small") {
+    // for small width screens only
+  }
+  @include mq("height>medium") {
+    // for greater than medium height screens only
+  }
+}
+```
+
+You can custom sizes with the variables `$mq-xsmall`, `$mq-small`, `$mq-medium`, `$mq-large`, `$mq-xlarge`
+
 ## Debug helper
 
 <!-- <img style="max-width: 81px; border-radius: 2px; margin-left: 1em; float: right;" src="mq-debug-helper-@2x.png" /> -->
@@ -68,14 +93,13 @@ import "sass-modern-mq/debug.js";
 
 ## Play now on Codesandbox!
 
-<!--
 <iframe loading="lazy"
      src="https://codesandbox.io/embed/sass-modern-mq-playground-0sqv2?fontsize=14&hidenavigation=1&module=%2Fsrc%2Fstyles.scss&theme=dark"
      style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
      title="Sass Modern MQ Playground"
      allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
      sandbox="allow-autoplay allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
-   ></iframe> -->
+   ></iframe>
 
 ## Why 'modern'?
 
