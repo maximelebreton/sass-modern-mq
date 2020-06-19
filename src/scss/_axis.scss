@@ -1,0 +1,114 @@
+
+
+// $y-breakpoints: (
+//     xsmall: 240px,
+//     small: 480px,
+//     medium: 540px, 
+//     large: 1024px,
+//     xlarge: 1440px
+// ) !default;
+
+// $x-sizes: (0, 320, 568, 960, 1280, 1920) !default;
+// $x-names: (small, medium, large, xlarge) !default;
+
+// $y-sizes: (0, 240, 480, 720, 1024) !default;
+// $y-names: (xsmall, small, medium, large) !default;
+
+@function getNameStartBreakpoints($name, $type) {
+
+    $breakpoints: ();
+
+    @if ($type == 'width') {
+        $breakpoints: (
+            'width=#{$name}': mq-width-less-equal-than($name),
+            'width>#{$name}': mq-width-greater-than($name)
+        );
+    }
+
+    @if ($type == 'height') {
+        $breakpoints: (
+            'height=#{$name}': mq-height-less-equal-than($name),
+            'height>#{$name}': mq-height-greater-than($name)
+        );
+    }
+
+    @return $breakpoints;
+}
+
+@function getNameEndBreakpoints($name, $type) {
+
+    $breakpoints: ();
+
+    @if ($type == 'width') {
+        $breakpoints: (
+            'width=#{$name}': mq-width-greater-equal-than($name),
+            'width<#{$name}': mq-width-less-than($name)
+        );
+    }
+
+    @if ($type == 'height') {
+        $breakpoints: (
+            'height=#{$name}': mq-height-greater-equal-than($name),
+            'height<#{$name}': mq-height-less-than($name)
+        );
+    }
+
+    @return $breakpoints;
+}
+
+@function getNameBreakpoints($name, $type) {
+
+    $breakpoints: ();
+
+    @if ($type == 'width') {
+        $breakpoints: (
+            'width=#{$name}': mq-width-equal($name),
+            'width<#{$name}': mq-width-less-than($name),
+            'width<=#{$name}': mq-width-less-equal-than($name),
+            'width>=#{$name}': mq-width-greater-equal-than($name),
+            'width>#{$name}': mq-width-greater-than($name)
+        );
+    }
+
+    @if ($type == 'height') {
+        $breakpoints: (
+            'height=#{$name}': mq-height-equal($name),
+            'height<#{$name}': mq-height-less-than($name),
+            'height<=#{$name}': mq-height-less-equal-than($name),
+            'height>=#{$name}': mq-height-greater-equal-than($name),
+            'height>#{$name}': mq-height-greater-than($name)
+        );
+    }
+
+    @return $breakpoints;
+}
+
+@function getBreakpoints($breakpoints-map, $type) {
+
+    $all-breakpoints: ();
+
+    @each $name, $size in $breakpoints-map {
+
+        $index: index(($breakpoints-map), ($name $size));
+    
+        $breakpoints: ();
+    
+        @if ($index == 1) {
+            $breakpoints: getNameStartBreakpoints($name, $type);
+        } @else if ($index == length($breakpoints-map)) {
+            $breakpoints: getNameEndBreakpoints($name, $type);
+        } @else {
+            $breakpoints: getNameBreakpoints($name, $type);
+        }
+    
+        $all-breakpoints: map-merge($all-breakpoints, $breakpoints);
+    
+    }
+
+    @return $all-breakpoints;
+    
+}
+
+
+$mq-width-breakpoints: getBreakpoints($x-breakpoints, 'width');
+$mq-height-breakpoints: getBreakpoints($y-breakpoints, 'height');

@@ -1,285 +1,159 @@
+@import "../../node_modules/sassdash/scss/sassdash";
 
-@function str-replace($string, $search, $replace: '') {
-  $index: str-index($string, $search);
+@import "utils";
 
-  @if $index {
-    @return str-slice($string, 1, $index - 1) + $replace + str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
-  }
 
-  @return $string;
+@function splitByComma($value, $args...) {
+  $separator: ", ";
+  //$stringWihoutComma: _replace($value, $separator, "");
+  $split: _split($value, $separator);
+  @return $split;
 }
-
-@function rename($value) {
-  $renamed-value: $value;
-  $renamed-value: str-replace($renamed-value, '>', 'greater-');
-  $renamed-value: str-replace($renamed-value, '<', 'less-');
-  $renamed-value: str-replace($renamed-value, '=', 'equal-');
-  $renamed-value: str-replace($renamed-value, '!', 'not-');
-  @return $renamed-value;
+@function removeAndSeparator($value, $args...) {
+  $result: _replace($value, " and ", "");
+  @return $result;
 }
-
-@function stringRatio($value) {
-  $stringifiedRatio: str-replace(toString($value), " ", "");
-  @return $stringifiedRatio;
+@function splitByAnd($value, $args...) {
+  // @debug type-of($value);
+  // @debug $value;
+  $separator: " and ";
+  //$stringWihoutComma: _replace($value, $separator, "");
+  $split: _split($value, $separator);
+  @return $split;
 }
-
-
-@function toString($value) {
-  @return $value + unquote("");
+@function mapRetina($value, $args...) {
+  $result: mq-get-retina-query($value);
+  @return $result;
 }
-
-@function str-split($string, $separator) {
-  // empty array/list
-  $split-arr: ();
-  // first index of separator in string
-  $index : str-index($string, $separator);
-  // loop through string
-  @while $index != null {
-      // get the substring from the first character to the separator
-      $item: str-slice($string, 1, $index - 1);
-      // push item to array
-      $split-arr: append($split-arr, $item);
-      // remove item and separator from string
-      $string: str-slice($string, $index + 1);
-      // find new index of separator
-      $index : str-index($string, $separator);
-  }
-  // add the remaining string to list (the last item)
-  $split-arr: append($split-arr, $string);
-
-  @return $split-arr;
-}
-
-@function is-contain-space($value) {
-  
-  $string: toString($value);
-   
-  @if (str-index($string, " ") != null) {
-    @return true;
+@function mapParseQuery($value, $args...) {
+  $result: "";
+  $parsed-breakpoint: mq-get-breakpoint($value);
+  @if ($parsed-breakpoint) {
+    $result: $parsed-breakpoint;
   } @else {
-    @return false;
+    $result: $value;
   }
+  @return $result;
+}
+@function getRetinaQueries($value, $args...) {
+  //$stringWihoutRetina: _replace($value, "retina", "");
+  //@debug $stringWihoutRetina;
+  //$retinaQueries: _map($value, splitByAnd);
+  //@debug $retinaQueries;
+  $split: _split($value, " and ");
+  $removeRetina: _without($split, "retina");
+  $parsedQueries: _map($removeRetina, mapParseQuery);
+  $combinedParsedQueries: _join($parsedQueries, " and ");
+
+  $retinaParsedQueries: mq-get-retina-query($combinedParsedQueries);
+
+  //@debug $split;
+  @return $retinaParsedQueries;
+}
+@function getAndQueries($value, $args...) {
+  //$stringWihoutRetina: _replace($value, "retina", "");
+  //@debug $stringWihoutRetina;
+  //$retinaQueries: _map($value, splitByAnd);
+  //@debug $retinaQueries;
+  $split: _split($value, " and ");
+  $parsedQueries: _map($split, mapParseQuery);
+  $andParsedQueries: _join($parsedQueries, " and ");
+
+  //@debug $split;
+  @return $andParsedQueries;
+}
+@function isContainRetina($value) {
+  $result: _includes($value, "retina");
+  @return $result;
 }
 
-@function is-contain-and($value) {
-  $string: toString($value);
-   
-  @if (str-index($string, " and ") != null) {
-    @return true;
-  } @else {
-    @return false;
-  }
+@function getCommaQueries($value) {
+  $commaQueries: _map($value, splitByComma);
+  //@debug $commaQueries;
+  @return $commaQueries;
 }
 
-@function mq-and-keywords($value) {
-  $dirty-keywords: str-split($value, " and ");
-  
-  $keywords: ();
-  @each $dirty-keyword in $dirty-keywords {
-    $keyword: str-replace($dirty-keyword, "and ", "");
-    $keywords: append($keywords, $keyword);
-  }
-  @return $keywords; 
-}
 
-@function mq-parse($keywords) {
-  //@warn $keywords;
+
+@function mq-parse($raw-queries) {
+  //@debug $raw-queries;
   $mq-list: ();
-  @each $keyword in $keywords {
-        
-    @if (mq-get-breakpoint($keyword)) {
-      $mq-list: append($mq-list, mq-get-breakpoint($keyword), comma);
-    } @else {
+
+  @each $raw-query in $raw-queries {
+    //@debug $raw-query;
+    $commaQueries: splitByComma($raw-query);
+    //@debug $commaQueries;
+    //@debug $commaQueries;
+    @each $commaList in $commaQueries {
+
+      //@debug $commaList;
       
-      @if (is-contain-and($keyword)) {
-        $raw-keywords: mq-and-keywords($keyword);
-        //$parsed-keywords: ();
-        $string-mq: "";
-        @each $raw-keyword in $raw-keywords {
-          $index: index($raw-keywords, $raw-keyword);
+      @each $commaQuery in $commaList {
+        $breakpoint: "";
+        @if ( isContainRetina($commaQuery)) {
+          $retinaQueries: getRetinaQueries($commaQuery);
           
-          @if (mq-get-breakpoint($raw-keyword)) {
-            
-            $parsed-keyword: mq-get-breakpoint($raw-keyword);
-            //$parsed-keywords: append($parsed-keywords, $parsed-keyword);
-            @if ($index == 1) {
-              $string-mq: $string-mq + $parsed-keyword;
-            } @else {
-              $string-mq: $string-mq + " and " + $parsed-keyword;
-            }
+          $breakpoint: $retinaQueries;
+    
+        } @else {
+          
+          @if (isContainAnd($commaQuery)) {
+            $andQueries: getAndQueries($commaQuery);
+            $breakpoint: $andQueries;
           } @else {
-            //$parsed-keywords: append($parsed-keywords, $raw-keyword);
-            @if ($index == 1) {
-              $string-mq: $string-mq + $raw-keyword;
-            } @else {
-              $string-mq: $string-mq + " and " + $raw-keyword;
+            
+            @if (mq-get-breakpoint($commaQuery)) {
+              $breakpoint: mq-get-breakpoint($commaQuery)
+            }@else {
+              $breakpoint: $commaQuery;
             }
+            
+
           }
+
         }
-        
-        //@return $string-mq;
-        $mq-list: append($mq-list, $string-mq, comma);
-      } @else {
-        //@return $keyword;
-        $mq-list: append($mq-list, $keyword, comma);
+        //@debug $breakpoint;
+        $mq-list: append($mq-list, $breakpoint, comma);
       }
-    } 
-  }
-  @debug $mq-list;
-  @return $mq-list;
-}
-
-
-@function mq-get-breakpoint($name, $breakpoints: $mq-breakpoints) {
-  @if map-has-key($breakpoints, $name) {
-      @return map-get($breakpoints, $name);
-  } @else {
-    //@warn "Breakpoint #{$name} wasn't found in $breakpoints.";
-    @return false;
-  }
-}
-
-@function mq-get($name, $list) {
-  @if map-has-key($list, $name) {
-      @return map-get($list, $name);
-  } @else {
-    //@warn "List #{$name} wasn't found in $list.";
-    @return false;
-  }
-}
-
-@function strip-unit($number) {
-  @if type-of($number) == 'number' and not unitless($number) {
-    @return $number / ($number * 0 + 1);
+    
+    }
   }
 
-  @return $number;
-}
+  // @each $raw-query in $raw-queries {
+  //   $breakpoint: "";
+  //   @if (mq-get-breakpoint($raw-query)) {
+  //     $breakpoint: mq-get-breakpoint($raw-query);
+  //   } @else {
+      
+  //     @if (is-contain-and($raw-query) or is-retina($raw-query)) {
+  //       @if (is-retina($raw-query)) {
+  //         $query-name: remove-retina-suffix($raw-query);
+  //         $parsed-query: mq-parse-query($query-name);
+  //         $breakpoint: mq-get-retina-query($parsed-query);
+  //       } @else {
+          
+  //         $breakpoint: mq-parse-query($raw-query);
+  //       }
+  //     } @else {
+  //       $breakpoint: $raw-query;
+  //     }
+  //   }
+  //   //@debug $breakpoint;
 
-// Converts pixels to em with $base-font-size
-// - https://gist.github.com/ijy/1441967
-@function px-to-em($target, $context: 16px) {
-  @if $target == 0 {
-    @return 0;
-  }
-  @return $target / $context * 1em;
-}
+  //   $mq-list: append($mq-list, $breakpoint, comma);
+  // }
 
+  //  @debug $mq-list;  
+    
 
-@function get-map-index($map, $value) {
-  $list: map-keys($map);
-  $index: index($list, $value);
-  @return $index;
-}
-@function get-map-index-key($map, $index) {
-  $list: map-keys($map);
-  $key: nth($list, $index);
-  @return $key;
-}
-@function get-map-index-value($map, $index) {
-  $key: get-map-index-key($map, $index);
-  $value: map-get($map, $key);
-  @return $value;
-}
-
-@function mq-width-less-than($size-key) {
-  $index: get-map-index($mq-sizes, $size-key);
-  $size-value: get-map-index-value($mq-sizes, $index - 1);
-  @return mq-to-width($size-value);
-}
-@function mq-width-less-equal-than($size-key) {
-  $size-value: map-get($mq-sizes, $size-key);
-  @return mq-to-width($size-value);
-}
-@function mq-width-greater-equal-than($size-key) {
-  $index: get-map-index($mq-sizes, $size-key);
-  $size-value: get-map-index-value($mq-sizes, $index - 1);
-  @return mq-from-width($size-value);
-}
-@function mq-width-greater-than($size-key) {
-  $size-value: map-get($mq-sizes, $size-key);
-  @return mq-from-width($size-value);
-}
-@function mq-width-equal($size-key) {
-  $index: get-map-index($mq-sizes, $size-key);
-  $from-size-value: get-map-index-value($mq-sizes, $index - 1);
-  $to-size-value: get-map-index-value($mq-sizes, $index);
-  @return mq-from-to-width($from-size-value, $to-size-value);
-}
+//  $retina-mq-list: ();
 
 
-@function mq-height-less-than($size-key) {
-  $index: get-map-index($mq-sizes, $size-key);
-  $size-value: get-map-index-value($mq-sizes, $index - 1);
-  @return mq-to-height($size-value);
-}
-@function mq-height-less-equal-than($size-key) {
-  $size-value: map-get($mq-sizes, $size-key);
-  @return mq-to-height($size-value);
-}
-@function mq-height-greater-equal-than($size-key) {
-  $index: get-map-index($mq-sizes, $size-key);
-  $size-value: get-map-index-value($mq-sizes, $index - 1);
-  @return mq-from-height($size-value);
-}
-@function mq-height-greater-than($size-key) {
-  $size-value: map-get($mq-sizes, $size-key);
-  @return mq-from-height($size-value);
-}
-@function mq-height-equal($size-key) {
-  $index: get-map-index($mq-sizes, $size-key);
-  $from-size-value: get-map-index-value($mq-sizes, $index - 1);
-  $to-size-value: get-map-index-value($mq-sizes, $index);
-  @return mq-from-to-height($from-size-value, $to-size-value);
-}
-
-
-
-@function mq-from-width($px) {
-  @return "(min-width: #{px-to-em($px)})";
-};
-@function mq-to-width($px) {
-  @return "(max-width: #{px-to-em($px - 1px)})";
-};
-@function mq-from-to-width($from, $to) {
-  @return "#{mq-from-width($from)} and #{mq-to-width($to)}";
-};
-
-@function mq-from-height($px) {
-  @return "(min-height: #{px-to-em($px)})";
-};
-@function mq-to-height($px) {
-  @return "(max-height: #{px-to-em($px - 1px)})";
-};
-@function mq-from-to-height($from, $to) {
-  @return "#{mq-from-height($from)} and #{mq-to-height($to)}";
-};
-
-
-@function map-collection($maps...) {
-  $collection: ();
-
-  @each $map in $maps {
-    $collection: map-merge($collection, $map);
-  }
-  @return $collection;
-}
-
-
-@function mq-get-enabled-breakpoints() {
-  $enabled-breakpoints: ();
-  @if ($mq-enable-ratio-breakpoints) {
-    $enabled-breakpoints: map-merge($enabled-breakpoints, $mq-ratio-breakpoints);
-  }
-  @if ($mq-enable-width-breakpoints) {
-    $enabled-breakpoints: map-merge($enabled-breakpoints, $mq-width-breakpoints);
-  }
-  @if ($mq-enable-height-breakpoints) {
-    $enabled-breakpoints: map-merge($enabled-breakpoints, $mq-height-breakpoints);
-  }
-  @if ($mq-enable-retina-breakpoints) {
-    $enabled-breakpoints: map-merge($enabled-breakpoints, $mq-retina-breakpoints);
-  }
+// $merged-list: join($mq-list, $retina-mq-list, comma);
   
-  @return $enabled-breakpoints;
+  //@debug $merged-list;
+  $flatten-list: _flatten($mq-list);
+  $string-mq: _join($flatten-list, ", ");
+  
+  @return $string-mq;
 }

@@ -13,7 +13,7 @@ export class debugSassMqRatio {
       if (module.hot) {
         module.hot.accept();
 
-        module.hot.dispose(function() {
+        module.hot.dispose(function () {
           const mqElement = document.querySelector(".mq-container");
           if (mqElement) {
             mqElement.remove();
@@ -41,7 +41,7 @@ export class debugSassMqRatio {
         <div class="mq-portrait-ratio"></div>
       </div>
       <div class="mq-rules">${this.cssVarNames
-        .map(name => `<div class="${this.rename(name)}"></div>`)
+        .map((name) => `<div class="${name}"></div>`)
         .join("")}</div>
     </div>`;
 
@@ -52,19 +52,10 @@ export class debugSassMqRatio {
     document.querySelector("body").innerHTML += html;
   }
 
-  rename(value) {
-    let renamedValue = value;
-    renamedValue = renamedValue.replace(">", "greater-");
-    renamedValue = renamedValue.replace("<", "less-");
-    renamedValue = renamedValue.replace("=", "equal-");
-    renamedValue = renamedValue.replace("!", "not-");
-    return renamedValue;
-  }
-
   getCssVarNames() {
     const rules = Array.from(document.styleSheets)
       .filter(
-        sheet =>
+        (sheet) =>
           sheet.href === null || sheet.href.startsWith(window.location.origin)
       )
       .reduce(
@@ -77,13 +68,13 @@ export class debugSassMqRatio {
                   rule.selectorText === ":root"
                     ? [
                         ...def,
-                        ...Array.from(rule.style).filter(name =>
+                        ...Array.from(rule.style).filter((name) =>
                           name.startsWith("--")
-                        )
+                        ),
                       ]
                     : def),
               []
-            )
+            ),
           ]),
         []
       );

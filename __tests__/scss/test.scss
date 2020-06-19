@@ -1,0 +1,139 @@
+$true-terminal-output: true;
+@import "context";
+@import "true";
+
+
+$retina-result: ("only screen and (min-device-pixel-ratio: 2)", "only screen and (min-resolution: 192dpi)", "only screen and (min-resolution: 2dppx)");
+
+$ratios-asserts: (
+    'landscape': "(min-aspect-ratio: 4/3)",
+    '>landscape': "(max-aspect-ratio:4001/3001)",
+    'square': "(min-aspect-ratio:4001/5001) and (max-aspect-ratio:4001/3001)",
+    '>square': "(max-aspect-ratio:4/5)",
+    '>=square': "(max-aspect-ratio:4/3)",
+    '<square': "(min-aspect-ratio:4/3)",
+    '<=square': "(min-aspect-ratio:4/5)",
+    'portrait': "(max-aspect-ratio:4/5)",
+    '<portrait': "(min-aspect-ratio:4001/5001)"
+);
+
+@function mq-get-x($name) {
+    $size: map-get($x-breakpoints, $name);
+    @return $size;
+}
+@function mq-get-y($name) {
+    $size: map-get($y-breakpoints, $name);
+    @return $size;
+}
+
+$width-asserts: (
+    'width=xsmall': "(max-width: #{px-to-em(mq-get-x('xsmall') - 1px)})",
+    'width=small': "(min-width: #{px-to-em(mq-get-x('xsmall'))}) and (max-width: #{px-to-em(mq-get-x('small') - 1px)})",
+    'width=medium': "(min-width: #{px-to-em(mq-get-x('small'))}) and (max-width: #{px-to-em(mq-get-x('medium') - 1px)})",
+    'width=large': "(min-width: #{px-to-em(mq-get-x('medium'))}) and (max-width: #{px-to-em(mq-get-x('large') - 1px)})",
+    'width=xlarge': "(min-width: #{px-to-em(mq-get-x('large'))})"
+);
+
+$height-asserts: (
+    'height=xsmall': "(max-height: #{px-to-em(mq-get-y('xsmall') - 1px)})",
+    'height=small': "(min-height: #{px-to-em(mq-get-y('xsmall'))}) and (max-height: #{px-to-em(mq-get-y('small') - 1px)})",
+    'height=medium': "(min-height: #{px-to-em(mq-get-y('small'))}) and (max-height: #{px-to-em(mq-get-y('medium') - 1px)})",
+    'height=large': "(min-height: #{px-to-em(mq-get-y('medium'))}) and (max-height: #{px-to-em(mq-get-y('large') - 1px)})",
+    'height=xlarge': "(min-height: #{px-to-em(mq-get-y('large'))})"
+);
+
+$operators-asserts: (
+    'width<small': "(max-width: #{px-to-em(mq-get-x('xsmall') - 1px)})",
+    'width<=small': "(max-width: #{px-to-em(mq-get-x('small') - 1px)})",
+    'width>=small': "(min-width: #{px-to-em(mq-get-x('xsmall'))})",
+    'width>small': "(min-width: #{px-to-em(mq-get-x('small'))})",
+
+    'height<small': "(max-height: #{px-to-em(mq-get-y('xsmall') - 1px)})",
+    'height<=small': "(max-height: #{px-to-em(mq-get-y('small') - 1px)})",
+    'height>=small': "(min-height: #{px-to-em(mq-get-y('xsmall'))})",
+    'height>small': "(min-height: #{px-to-em(mq-get-y('small'))})"
+);
+
+
+    @include describe('Ratios') {
+        @include it('Landscape, square and portrait variations') {
+            @include assert-equal(mq-parse('landscape'), map-get($ratios-asserts, 'landscape'));
+            @include assert-equal(mq-parse('>landscape'), map-get($ratios-asserts, '>landscape'));
+
+            @include assert-equal(mq-parse('square'), map-get($ratios-asserts, 'square'));
+            @include assert-equal(mq-parse('>square'), map-get($ratios-asserts, '>square'));
+            @include assert-equal(mq-parse('>=square'), map-get($ratios-asserts, '>=square'));
+            @include assert-equal(mq-parse('<square'), map-get($ratios-asserts, '<square'));
+            @include assert-equal(mq-parse('<=square'), map-get($ratios-asserts, '<=square'));
+
+            @include assert-equal(mq-parse('portrait'), map-get($ratios-asserts, 'portrait'));
+            @include assert-equal(mq-parse('<portrait'), map-get($ratios-asserts, '<portrait'));
+        }
+    }
+
+    @include describe('Width') {
+        @include it('Width equal breakpoints') {
+            @include assert-equal(mq-parse('width=xsmall'), map-get($width-asserts, 'width=xsmall'));
+            @include assert-equal(mq-parse('width=small'), map-get($width-asserts, 'width=small'));
+            @include assert-equal(mq-parse('width=medium'), map-get($width-asserts, 'width=medium'));
+            @include assert-equal(mq-parse('width=large'), map-get($width-asserts, 'width=large'));
+            @include assert-equal(mq-parse('width=xlarge'), map-get($width-asserts, 'width=xlarge'));
+        }
+    }
+
+    @include describe('Height') {
+        @include it('Height equal breakpoints') {
+            @include assert-equal(mq-parse('height=xsmall'), map-get($height-asserts, 'height=xsmall'));
+            @include assert-equal(mq-parse('height=small'), map-get($height-asserts, 'height=small'));
+            @include assert-equal(mq-parse('height=medium'), map-get($height-asserts, 'height=medium'));
+            @include assert-equal(mq-parse('height=large'), map-get($height-asserts, 'height=large'));
+            @include assert-equal(mq-parse('height=xlarge'), map-get($height-asserts, 'height=xlarge'));
+        }
+    }
+
+    @include describe('Operators') {
+        @include it('Width operators') {
+            @include assert-equal(mq-parse('width<small'), map-get($operators-asserts, 'width<small'));
+            @include assert-equal(mq-parse('width<=small'), map-get($operators-asserts, 'width<=small'));
+            @include assert-equal(mq-parse('width>=small'), map-get($operators-asserts, 'width>=small'));
+            @include assert-equal(mq-parse('width>small'), map-get($operators-asserts, 'width>small'));
+        }
+
+        @include it('Height operators') {
+            @include assert-equal(mq-parse('height<small'), map-get($operators-asserts, 'height<small'));
+            @include assert-equal(mq-parse('height<=small'), map-get($operators-asserts, 'height<=small'));
+            @include assert-equal(mq-parse('height>=small'), map-get($operators-asserts, 'height>=small'));
+            @include assert-equal(mq-parse('height>small'), map-get($operators-asserts, 'height>small'));
+        }
+    }
+
+    @include describe('Retina') {
+        @include it('Retina') {
+            @include assert-equal(mq-parse('retina'), "only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx)");
+        }
+    }
+
+    @include describe('And separator (and)') {
+        @include it('Ratio and width combination') {
+            @include assert-equal(mq-parse('square and width<small'), "#{map-get($ratios-asserts, 'square')} and #{map-get($operators-asserts, 'width<small')}");
+        }
+        @include it('Retina and ratio and width combination') {
+            @include assert-equal(mq-parse('retina and portrait and width>small'), "only screen and (max-aspect-ratio:4/5) and (min-width: 35.5em) and (min-device-pixel-ratio: 2), only screen and (max-aspect-ratio:4/5) and (min-width: 35.5em) and (min-resolution: 192dpi), only screen and (max-aspect-ratio:4/5) and (min-width: 35.5em) and (min-resolution: 2dppx)");
+        }
+        @include it('Ratio and custom media query combination') {
+            @include assert-equal(mq-parse('portrait and (min-resolution: 120dpi)'), "#{map-get($ratios-asserts, 'portrait')} and (min-resolution: 120dpi)");
+        }
+        
+    }
+
+    @include describe('Or separator in string (,)') {
+        @include it('Square or width') {
+            @include assert-equal(mq-parse(('square, width<small')), "#{map-get($ratios-asserts, 'square')}, #{map-get($operators-asserts, 'width<small')}");
+        }
+    }
+    
+    @include describe('Or separator with multiple arguments') {
+        @include it('Square or width') {
+            @include assert-equal(mq-parse(('square', 'width<small')), "#{map-get($ratios-asserts, 'square')}, #{map-get($operators-asserts, 'width<small')}");
+        }
+    }

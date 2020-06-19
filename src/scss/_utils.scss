@@ -1,0 +1,319 @@
+
+
+
+@function str-replace($string, $search, $replace: '') {
+    $index: str-index($string, $search);
+  
+    @if $index {
+      @return str-slice($string, 1, $index - 1) + $replace + str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+    }
+  
+    @return $string;
+  }
+  
+  @function rename($value) {
+    $renamed-value: $value;
+    $renamed-value: str-replace($renamed-value, 'width', 'width-');
+    $renamed-value: str-replace($renamed-value, 'height', 'height-');
+    $renamed-value: str-replace($renamed-value, '>', 'greater-');
+    $renamed-value: str-replace($renamed-value, '<', 'less-');
+    $renamed-value: str-replace($renamed-value, '=', 'equal-');
+    $renamed-value: str-replace($renamed-value, '!', 'not-');
+    $renamed-value: str-replace($renamed-value, '@', 'retina-');
+    @return $renamed-value;
+  }
+  
+  @function stringRatio($value) {
+    $stringifiedRatio: str-replace(toString($value), " ", "");
+    @return $stringifiedRatio;
+  }
+  
+  
+  @function toString($value) {
+    @return $value + unquote("");
+  }
+  
+  @function str-split($string, $separator) {
+    // empty array/list
+    $split-arr: ();
+    // first index of separator in string
+    $index : str-index($string, $separator);
+    // loop through string
+    @while $index != null {
+        // get the substring from the first character to the separator
+        $item: str-slice($string, 1, $index - 1);
+        // push item to array
+        $split-arr: append($split-arr, $item);
+        // remove item and separator from string
+        $string: str-slice($string, $index + 1);
+        // find new index of separator
+        $index : str-index($string, $separator);
+    }
+    // add the remaining string to list (the last item)
+    $split-arr: append($split-arr, $string);
+  
+    @return $split-arr;
+  }
+  
+  @function is-contain-space($value) {
+    
+    $string: toString($value);
+     
+    @if (str-index($string, " ") != null) {
+      @return true;
+    } @else {
+      @return false;
+    }
+  }
+  
+  @function is-contain-and($value) {
+    $string: toString($value);
+     
+    @if (str-index($string, " and ") != null) {
+      @return true;
+    } @else {
+      @return false;
+    }
+  }
+  
+  @function is-retina-2x($value) {
+    $string: toString($value);
+     
+    @if (str-index($string, "@2x") != null) {
+      @return true;
+    } @else {
+      @return false;
+    }
+  }
+  @function is-retina($value) {
+    @return is-retina-2x($value);
+  }
+  @function remove-retina-suffix($value) {
+    $breakpoint: str-replace($value, "@2x", "");
+    $breakpoint: str-replace($breakpoint, "@3x", "");
+    @return $breakpoint;
+  }
+  
+  @function mq-and-keywords($value) {
+    $dirty-keywords: str-split($value, " and ");
+    
+    $keywords: ();
+    @each $dirty-keyword in $dirty-keywords {
+      $keyword: str-replace($dirty-keyword, "and ", "");
+      $keywords: append($keywords, $keyword);
+    }
+    @return $keywords; 
+  }
+  
+  @function mq-parse-query($raw-query) {
+    $raw-keywords: mq-and-keywords($raw-query);
+          //$parsed-keywords: ();
+    $parsed-query: "";
+    @each $raw-keyword in $raw-keywords {
+      $index: index($raw-keywords, $raw-keyword);
+      
+      @if (mq-get-breakpoint($raw-keyword)) {
+        
+        $parsed-keyword: mq-get-breakpoint($raw-keyword);
+        //$parsed-keywords: append($parsed-keywords, $parsed-keyword);
+        @if ($index == 1) {
+          $parsed-query: $parsed-query + $parsed-keyword;
+        } @else {
+          $parsed-query: $parsed-query + " and " + $parsed-keyword;
+        }
+      } @else {
+        //$parsed-keywords: append($parsed-keywords, $raw-keyword);
+        @if ($index == 1) {
+          $parsed-query: $parsed-query + $raw-keyword;
+        } @else {
+          $parsed-query: $parsed-query + " and " + $raw-keyword;
+        }
+      }
+    }
+    @return $parsed-query;
+  }
+  
+  
+  @function get-or-queries($value) {
+  
+    
+  }
+  
+  
+  
+  
+  
+  @function mq-get-retina-query($query, $breakpoints: $mq-2x-breakpoints) {
+    //$parsed-query: "";
+    $query-list: ();
+    @each $breakpoint in $breakpoints {
+      //$index: index($breakpoints, $breakpoint);
+      //$comma: if($index == length($breakpoints), "", ", ");
+      $result: "";
+      @if (_size($query) == 0) {
+        $result:"only screen and " + unquote($breakpoint);  
+      } @else {
+        $result:"only screen and " + $query + " and " + unquote($breakpoint);
+      }
+      //$parsed-query: $parsed-query + $result;
+      $query-list: append($query-list, $result, comma)
+    };
+    @return $query-list
+  };
+  
+  
+  @function mq-get-breakpoint($name, $breakpoints: $mq-breakpoints) {
+    @if map-has-key($breakpoints, $name) {
+        @return map-get($breakpoints, $name);
+    } @else {
+      //@warn "Breakpoint #{$name} wasn't found in $breakpoints.";
+      @return false;
+    }
+  }
+  
+  @function mq-get($name, $list) {
+    @if map-has-key($list, $name) {
+        @return map-get($list, $name);
+    } @else {
+      //@warn "List #{$name} wasn't found in $list.";
+      @return false;
+    }
+  }
+  
+  @function strip-unit($number) {
+    @if type-of($number) == 'number' and not unitless($number) {
+      @return $number / ($number * 0 + 1);
+    }
+  
+    @return $number;
+  }
+  
+  // Converts pixels to em with $base-font-size
+  // - https://gist.github.com/ijy/1441967
+  @function px-to-em($target, $context: 16px) {
+    @if $target == 0 {
+      @return 0;
+    }
+    @return $target / $context * 1em;
+  }
+  
+  
+  @function get-map-index($map, $value) {
+    $list: map-keys($map);
+    $index: index($list, $value);
+    @return $index;
+  }
+  @function get-map-index-key($map, $index) {
+    $list: map-keys($map);
+    $key: nth($list, $index);
+    @return $key;
+  }
+  @function get-map-index-value($map, $index) {
+    $key: get-map-index-key($map, $index);
+    $value: map-get($map, $key);
+    @return $value;
+  }
+  
+  @function mq-width-less-than($size-key) {
+    $index: get-map-index($x-breakpoints, $size-key);
+    $size-value: get-map-index-value($x-breakpoints, $index - 1);
+    @return mq-to-width($size-value);
+  }
+  @function mq-width-less-equal-than($size-key) {
+    $size-value: map-get($x-breakpoints, $size-key);
+    @return mq-to-width($size-value);
+  }
+  @function mq-width-greater-equal-than($size-key) {
+    $index: get-map-index($x-breakpoints, $size-key);
+    $size-value: get-map-index-value($x-breakpoints, $index - 1);
+    @return mq-from-width($size-value);
+  }
+  @function mq-width-greater-than($size-key) {
+    $size-value: map-get($x-breakpoints, $size-key);
+    @return mq-from-width($size-value);
+  }
+  @function mq-width-equal($size-key) {
+    $index: get-map-index($x-breakpoints, $size-key);
+    $from-size-value: get-map-index-value($x-breakpoints, $index - 1);
+    $to-size-value: get-map-index-value($x-breakpoints, $index);
+    @return mq-from-to-width($from-size-value, $to-size-value);
+  }
+  
+  
+  @function mq-height-less-than($size-key) {
+    $index: get-map-index($y-breakpoints, $size-key);
+    $size-value: get-map-index-value($y-breakpoints, $index - 1);
+    @return mq-to-height($size-value);
+  }
+  @function mq-height-less-equal-than($size-key) {
+    $size-value: map-get($y-breakpoints, $size-key);
+    @return mq-to-height($size-value);
+  }
+  @function mq-height-greater-equal-than($size-key) {
+    $index: get-map-index($y-breakpoints, $size-key);
+    $size-value: get-map-index-value($y-breakpoints, $index - 1);
+    @return mq-from-height($size-value);
+  }
+  @function mq-height-greater-than($size-key) {
+    $size-value: map-get($y-breakpoints, $size-key);
+    @return mq-from-height($size-value);
+  }
+  @function mq-height-equal($size-key) {
+    $index: get-map-index($y-breakpoints, $size-key);
+    $from-size-value: get-map-index-value($y-breakpoints, $index - 1);
+    $to-size-value: get-map-index-value($y-breakpoints, $index);
+    @return mq-from-to-height($from-size-value, $to-size-value);
+  }
+  
+  
+  
+  
+  
+  @function mq-from-width($px) {
+    @return "(min-width: #{px-to-em($px)})";
+  };
+  @function mq-to-width($px) {
+    @return "(max-width: #{px-to-em($px - 1px)})";
+  };
+  @function mq-from-to-width($from, $to) {
+    @return "#{mq-from-width($from)} and #{mq-to-width($to)}";
+  };
+  
+  @function mq-from-height($px) {
+    @return "(min-height: #{px-to-em($px)})";
+  };
+  @function mq-to-height($px) {
+    @return "(max-height: #{px-to-em($px - 1px)})";
+  };
+  @function mq-from-to-height($from, $to) {
+    @return "#{mq-from-height($from)} and #{mq-to-height($to)}";
+  };
+  
+  
+  @function map-collection($maps...) {
+    $collection: ();
+  
+    @each $map in $maps {
+      $collection: map-merge($collection, $map);
+    }
+    @return $collection;
+  }
+  
+  
+  @function mq-get-enabled-breakpoints() {
+    $enabled-breakpoints: ();
+    @if ($mq-enable-ratio-breakpoints) {
+      $enabled-breakpoints: map-merge($enabled-breakpoints, $mq-ratio-breakpoints);
+    }
+    @if ($mq-enable-width-breakpoints) {
+      $enabled-breakpoints: map-merge($enabled-breakpoints, $mq-width-breakpoints);
+    }
+    @if ($mq-enable-height-breakpoints) {
+      $enabled-breakpoints: map-merge($enabled-breakpoints, $mq-height-breakpoints);
+    }
+    @if ($mq-enable-retina-breakpoints) {
+      $enabled-breakpoints: map-merge($enabled-breakpoints, $mq-retina-breakpoints);
+    }
+    
+    @return $enabled-breakpoints;
+  }

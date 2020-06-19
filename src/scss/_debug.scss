@@ -10,7 +10,7 @@
   .mq-container {
     background: rgba(black, 0.5);
     text-align: center;
-    pointer-events: none;
+    //pointer-events: none;
     position: fixed;
     font-size: 16px;
     top: 1em;
@@ -19,17 +19,21 @@
     z-index: 9999;
     padding: 1em .75em;
     font-weight: normal;
+    max-height: calc(100vh - 2em);
+    overflow: auto;
+    box-sizing: border-box;
   }
 
   .mq-ratio-models {
     display: inline-block;
     width: 100%;
     text-align: center;
-    margin-bottom: 1em;
+    margin-bottom: .5rem;
     font-size: 0;
     // position: fixed;
     // top: 1rem;
-    // pointer-events: none;
+    pointer-events: none;
+
   }
   
   .mq-rules {
@@ -38,6 +42,7 @@
     display: block;
     color: white;
     line-height: 1;
+    pointer-events: none;
 
     & > div {
       margin-bottom: .25em;
@@ -91,10 +96,23 @@
   
     .--mq-#{rename($screen)}::after {
       @include mq($screen) {
+
+        @if (str-index($screen, 'width') or str-index($screen, 'height')) {
+          @if (str-index($screen, '>') or str-index($screen, '<')) {
+            opacity: .5;
+          }
+        }
         
         content: "#{$screen}";
       }
     }
+  }
+
+  body {
+    @include mq("retina and portrait and width>small") {
+      background-color: red;
+    }
+    
   }
 
 }

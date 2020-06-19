@@ -1,23 +1,23 @@
-$mq-sizes: (
-  xsmall: $mq-xsmall,
-  small: $mq-small,
-  medium: $mq-medium,
-  large: $mq-large,
-  xlarge: $mq-xlarge
-) !default;
+@import 'axis';
+
+
 
 $mq-landscape-min-ratio: toString($mq-landscape-ratio-width)/toString($mq-landscape-ratio-height);
 $mq-portrait-min-ratio: toString($mq-portrait-ratio-width)/toString($mq-portrait-ratio-height);
+
+$mq-landscape-max-ratio: toString($mq-landscape-ratio-width * 1000 + 1)/toString($mq-landscape-ratio-height * 1000 + 1);
+$mq-portrait-max-ratio: toString($mq-portrait-ratio-width * 1000 + 1)/toString($mq-portrait-ratio-height * 1000 + 1);
 
 $mq-portrait-ratio: $mq-portrait-ratio-width / $mq-portrait-ratio-height;
 $mq-landscape-ratio: $mq-landscape-ratio-width / $mq-landscape-ratio-height;
 
 $mq-ratio-breakpoints: (
-   square: "(min-aspect-ratio:#{$mq-portrait-min-ratio}) and (max-aspect-ratio:#{$mq-landscape-min-ratio})"
+   square: "(min-aspect-ratio:#{$mq-portrait-max-ratio}) and (max-aspect-ratio:#{$mq-landscape-max-ratio})"
   ,portrait: "(max-aspect-ratio:#{$mq-portrait-min-ratio})"
   ,landscape: "(min-aspect-ratio: #{$mq-landscape-min-ratio})"
+  //,square: "not screen and (min-aspect-ratio: #{$mq-landscape-min-ratio})"
 
-  ,'>landscape': "(max-aspect-ratio:#{$mq-landscape-min-ratio})"
+  ,'>landscape': "(max-aspect-ratio:#{$mq-landscape-max-ratio})"
   //,'!landscape': "not (min-aspect-ratio: #{$mq-landscape-min-ratio})"
 
   ,'>square':  "(max-aspect-ratio:#{$mq-portrait-min-ratio})"
@@ -26,66 +26,73 @@ $mq-ratio-breakpoints: (
   ,'<=square': "(min-aspect-ratio:#{$mq-portrait-min-ratio})"
   //,'!square': "not screen and (min-aspect-ratio:#{$mq-portrait-min-ratio}) and (not max-aspect-ratio:#{$mq-landscape-min-ratio})"
 
-  ,'<portrait': "(min-aspect-ratio:#{$mq-portrait-min-ratio})"
+  ,'<portrait': "(min-aspect-ratio:#{$mq-portrait-max-ratio})"
   //,'!portrait': "not screen and (max-aspect-ratio:#{$mq-portrait-min-ratio})"
 ) !default;
 
-$mq-width-breakpoints: (
-   'width=xsmall': mq-width-less-equal-than(xsmall)
-  ,'width>xsmall': mq-width-greater-than(xsmall)
+// $mq-width-breakpoints: (
+//    'width=xsmall': mq-width-less-equal-than(xsmall)
+//   ,'width<=xsmall': mq-width-less-equal-than(xsmall)
+//   ,'width>xsmall': mq-width-greater-than(xsmall)
 
-  ,'width=small': mq-width-equal(small)
-  ,'width<small': mq-width-less-than(small)
-  ,'width<=small': mq-width-less-equal-than(small)
-  ,'width>=small': mq-width-greater-equal-than(small)
-  ,'width>small': mq-width-greater-than(small)
+//   ,'width=small': mq-width-equal(small)
+//   ,'width<small': mq-width-less-than(small)
+//   ,'width<=small': mq-width-less-equal-than(small)
+//   ,'width>=small': mq-width-greater-equal-than(small)
+//   ,'width>small': mq-width-greater-than(small)
 
-  ,'width=medium': mq-width-equal(medium)
-  ,'width<medium': mq-width-less-than(medium)
-  ,'width<=medium': mq-width-less-equal-than(medium)
-  ,'width>=medium': mq-width-greater-equal-than(medium)
-  ,'width>medium': mq-width-greater-than(medium)
+//   ,'width=medium': mq-width-equal(medium)
+//   ,'width<medium': mq-width-less-than(medium)
+//   ,'width<=medium': mq-width-less-equal-than(medium)
+//   ,'width>=medium': mq-width-greater-equal-than(medium)
+//   ,'width>medium': mq-width-greater-than(medium)
 
-  ,'width=large': mq-width-equal(large)
-  ,'width<large': mq-width-less-than(large)
-  ,'width<=large': mq-width-less-equal-than(large)
-  ,'width>=large': mq-width-greater-equal-than(large)
-  ,'width>large': mq-width-greater-than(large)
+//   ,'width=large': mq-width-equal(large)
+//   ,'width<large': mq-width-less-than(large)
+//   ,'width<=large': mq-width-less-equal-than(large)
+//   ,'width>=large': mq-width-greater-equal-than(large)
+//   ,'width>large': mq-width-greater-than(large)
 
-  ,'width=xlarge': mq-width-greater-equal-than(xlarge)
-  ,'width<xlarge': mq-width-less-than(xlarge)
-) !default;
+//   ,'width=xlarge': mq-width-greater-equal-than(xlarge)
+//   ,'width>=xlarge': mq-width-greater-equal-than(xlarge)
+//   ,'width<xlarge': mq-width-less-than(xlarge)
+// ) !default;
 
 
-$mq-height-breakpoints: (
-   'height=xsmall': mq-height-less-equal-than(xsmall)
-  ,'height>xsmall': mq-height-greater-than(xsmall)
+// $mq-height-breakpoints: (
+//    'height=xsmall': mq-height-less-equal-than(xsmall)
+//   ,'height<=xsmall': mq-height-less-equal-than(xsmall)
+//   ,'height>xsmall': mq-height-greater-than(xsmall)
 
-  ,'height=small': mq-height-equal(small)
-  ,'height<small': mq-height-less-than(small)
-  ,'height<=small': mq-height-less-equal-than(small)
-  ,'height>=small': mq-height-greater-equal-than(small)
-  ,'height>small': mq-height-greater-than(small)
+//   ,'height=small': mq-height-equal(small)
+//   ,'height<small': mq-height-less-than(small)
+//   ,'height<=small': mq-height-less-equal-than(small)
+//   ,'height>=small': mq-height-greater-equal-than(small)
+//   ,'height>small': mq-height-greater-than(small)
 
-  ,'height=medium': mq-height-equal(medium)
-  ,'height<medium': mq-height-less-than(medium)
-  ,'height<=medium': mq-height-less-equal-than(medium)
-  ,'height>=medium': mq-height-greater-equal-than(medium)
-  ,'height>medium': mq-height-greater-than(medium)
+//   ,'height=medium': mq-height-equal(medium)
+//   ,'height<medium': mq-height-less-than(medium)
+//   ,'height<=medium': mq-height-less-equal-than(medium)
+//   ,'height>=medium': mq-height-greater-equal-than(medium)
+//   ,'height>medium': mq-height-greater-than(medium)
 
-  ,'height=large': mq-height-equal(large)
-  ,'height<large': mq-height-less-than(large)
-  ,'height<=large': mq-height-less-equal-than(large)
-  ,'height>=large': mq-height-greater-equal-than(large)
-  ,'height>large': mq-height-greater-than(large)
+//   ,'height=large': mq-height-equal(large)
+//   ,'height<large': mq-height-less-than(large)
+//   ,'height<=large': mq-height-less-equal-than(large)
+//   ,'height>=large': mq-height-greater-equal-than(large)
+//   ,'height>large': mq-height-greater-than(large)
 
-  ,'height=xlarge': mq-height-greater-equal-than(xlarge)
-  ,'height<xlarge': mq-height-less-than(xlarge)
-) !default;
+//   ,'height=xlarge': mq-height-greater-equal-than(xlarge)
+//   ,'height>=xlarge': mq-height-greater-equal-than(xlarge)
+//   ,'height<xlarge': mq-height-less-than(xlarge)
+// ) !default;
+
+//@debug mq-join-retina-queries($mq-2x-breakpoints);
+
 
 $mq-retina-breakpoints: (
-   'retina': "(min-device-pixel-ratio: 2), (min-resolution: 192dpi), (min-resolution: 2dppx)"
-  ,'!retina': "not screen and (min-device-pixel-ratio: 2), not screen and (min-resolution: 192dpi), not screen and (min-resolution: 2dppx)"
+   'retina': mq-get-retina-query(false, $mq-2x-breakpoints)
+  //,'!retina': "not screen and (min-device-pixel-ratio: 2), not screen and (min-resolution: 192dpi), not screen and (min-resolution: 2dppx)"
 
   // ,'@2x': "(min-device-pixel-ratio: 2), (min-resolution: 192dpi), (min-resolution: 2dppx)"
   // ,'@3x': "(min-device-pixel-ratio: 3), (min-resolution: 384dpi), (min-resolution: 3dppx)"

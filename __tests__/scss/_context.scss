@@ -1,0 +1,40 @@
+$mq-debug: false;
+$mq-enable-ratio-breakpoints: true;
+$mq-enable-width-breakpoints: true;
+$mq-enable-height-breakpoints: true;
+$mq-enable-retina-breakpoints: true;
+
+
+// 4:3 = 1024 x 768
+$mq-landscape-ratio-width: 4;
+$mq-landscape-ratio-height: 3;
+$mq-landscape-max-ratio: "1000/1";
+
+// 4:5 = 1024 x 1280
+$mq-portrait-ratio-width: 4;
+$mq-portrait-ratio-height: 5;
+$mq-portrait-max-ratio: "1/1000";
+
+$mq-xsmall:  320px;
+$mq-small:  568px;
+$mq-medium:  960px;
+$mq-large: 1280px;
+$mq-xlarge: 1920px;
+
+$mq-2x-breakpoints: ("(min-device-pixel-ratio: 2)", "(min-resolution: 192dpi)", "(min-resolution: 2dppx)");
+
+
+$x-breakpoints: (
+    xsmall: 320px,
+    small: 568px,
+    medium: 960px, 
+    large: 1280px,
+    xlarge: 1920px
+);
+
+$y-breakpoints: $x-breakpoints;
+
+
+@import "../../src/scss/variables";
+@import "../../src/scss/functions";
+@import "../../src/scss/breakpoints";
