@@ -108,12 +108,6 @@
     }
   }
 
-  body {
-    @include mq("retina and portrait and width>small") {
-      background-color: red;
-    }
-    
-  }
 
 }
 

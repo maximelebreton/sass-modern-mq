@@ -29,7 +29,7 @@ yarn add sass-modern-mq
 ## Usage
 
 ```scss
-@import "sass-modern-mq/mq.scss";
+@import "sass-modern-mq";
 
 .my-class {
   @include mq("landscape") {

@@ -1,6 +1,6 @@
 {
   "name": "sass-modern-mq",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "description": "",
   "main": "index.html",
   "scripts": {
@@ -8,9 +8,7 @@
     "build": "parcel build index.html --no-content-hash",
     "test": "jest --watchAll"
   },
-  "dependencies": {
-    "sassdash": "^0.9.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "autoprefixer": "9.8.0",
     "github-markdown-css": "4.0.0",

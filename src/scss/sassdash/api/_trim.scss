@@ -1,0 +1,95 @@
+@function __trim($string, $chars: null, $guard: null) {
+    $string: __trim-left($string, $chars, $guard);
+    $string: __trim-right($string, $chars, $guard);
+
+    @return $string;
+}
+
+@function __trim-left($string, $chars: null, $guard: null) {
+    @if $guard {
+        @return __trim-left($string);
+    }
+
+    $string: __to-string($string);
+    $chars-list: __string-split(if($chars, __to-string($chars), ' '));
+
+    @while index($chars-list, str-slice($string, 0, 1)) != null {
+        $string: str-slice($string, 2);
+    }
+
+    @return $string;
+}
+
+@function __trim-right($string, $chars: null, $guard: null) {
+    @if $guard {
+        @return __trim-right($string);
+    }
+
+    $string: __to-string($string);
+    $chars-list: __string-split(if($chars, __to-string($chars), ' '));
+
+    @while index($chars-list, str-slice($string, -1)) != null {
+        $string: str-slice($string, 0, -2);
+    }
+
+    @return $string;
+}
+
+
+/// Removes leading and trailing whitespace or specified characters from `$string`.
+///
+///
+/// @access public
+/// @group String
+/// @param {string} $string [''] - The string to trim.
+/// @param {string} $chars [' '] - The characters to trim.
+/// @returns {string} Returns the trimmed string.
+/// @example scss
+/// $foo: _trim('  abc  ');
+/// // => 'abc'
+/// $foo: _trim('-_-abc-_-', '_-');
+/// // => 'abc'
+/// $foo: _map(('  foo  ', '  bar  '), _trim);
+/// // => ('foo', 'bar')
+
+@function _trim($args...) {
+    @return call(get-function('__trim'), $args...);
+}
+
+
+/// Removes leading whitespace or specified characters from `$string`.
+///
+///
+/// @access public
+/// @group String
+/// @param {string} $string [''] - The string to trim.
+/// @param {string} $chars [whitespace] - The characters to trim.
+/// @returns {string} Returns the trimmed string.
+/// @example scss
+/// /// _trim-left('  abc  ');
+/// // => 'abc  '
+/// /// _trim-left('-_-abc-_-', '_-');
+/// // => 'abc-_-'
+
+@function _trim-left($args...) {
+    @return call(get-function('__trim-left'), $args...);
+}
+
+
+/// Removes trailing whitespace or specified characters from `$string`.
+///
+///
+/// @access public
+/// @group String
+/// @param {string} $string [''] - The string to trim.
+/// @param {string} $chars [' '] - The characters to trim.
+/// @returns {string} Returns the trimmed string.
+/// @example scss
+/// $foo: _trim-right('  abc  ');
+/// // => '  abc'
+/// $foo: _trim-right('-_-abc-_-', '_-');
+/// // => '-_-abc'
+
+@function _trim-right($args...) {
+    @return call(get-function('__trim-right'), $args...);
+}
