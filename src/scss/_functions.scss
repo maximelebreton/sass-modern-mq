@@ -1,31 +1,29 @@
-@import "./sassdash/sassdash";
-
 @import "utils";
 
 
 @function splitByComma($value, $args...) {
   $separator: ", ";
-  //$stringWihoutComma: _replace($value, $separator, "");
-  $split: _split($value, $separator);
+  //$stringWihoutComma: str-replace($value, $separator, "");
+  $split: explode($value, $separator);
   @return $split;
 }
 @function removeAndSeparator($value, $args...) {
-  $result: _replace($value, " and ", "");
+  $result: str-replace($value, " and ", "");
   @return $result;
 }
 @function splitByAnd($value, $args...) {
   // @debug type-of($value);
   // @debug $value;
   $separator: " and ";
-  //$stringWihoutComma: _replace($value, $separator, "");
-  $split: _split($value, $separator);
+  //$stringWihoutComma: str-replace($value, $separator, "");
+  $split: explode($value, $separator);
   @return $split;
 }
 @function mapRetina($value, $args...) {
   $result: mq-get-retina-query($value);
   @return $result;
 }
-@function mapParseQuery($value, $args...) {
+@function parseQuery($value, $args...) {
   $result: "";
   $parsed-breakpoint: mq-get-breakpoint($value);
   @if ($parsed-breakpoint) {
@@ -35,15 +33,19 @@
   }
   @return $result;
 }
+
+
+
+
 @function getRetinaQueries($value, $args...) {
-  //$stringWihoutRetina: _replace($value, "retina", "");
+  //$stringWihoutRetina: str-replace($value, "retina", "");
   //@debug $stringWihoutRetina;
   //$retinaQueries: _map($value, splitByAnd);
   //@debug $retinaQueries;
-  $split: _split($value, " and ");
-  $removeRetina: _without($split, "retina");
-  $parsedQueries: _map($removeRetina, mapParseQuery);
-  $combinedParsedQueries: _join($parsedQueries, " and ");
+  $split: explode($value, " and ");
+  $removeRetina: base-difference($split, "retina");
+  $parsedQueries: mapParseQuery($removeRetina);
+  $combinedParsedQueries: list-join($parsedQueries, " and ");
 
   $retinaParsedQueries: mq-get-retina-query($combinedParsedQueries);
 
@@ -51,24 +53,25 @@
   @return $retinaParsedQueries;
 }
 @function getAndQueries($value, $args...) {
-  //$stringWihoutRetina: _replace($value, "retina", "");
+  //$stringWihoutRetina: str-replace($value, "retina", "");
   //@debug $stringWihoutRetina;
   //$retinaQueries: _map($value, splitByAnd);
   //@debug $retinaQueries;
-  $split: _split($value, " and ");
-  $parsedQueries: _map($split, mapParseQuery);
-  $andParsedQueries: _join($parsedQueries, " and ");
+  $split: explode($value, " and ");
+  $parsedQueries: mapParseQuery($split);
+  
+  $andParsedQueries: list-join($parsedQueries, " and ");
 
   //@debug $split;
   @return $andParsedQueries;
 }
 @function isContainRetina($value) {
-  $result: _includes($value, "retina");
+  $result: if(str-index($value, "retina"), true, false);
   @return $result;
 }
 
 @function getCommaQueries($value) {
-  $commaQueries: _map($value, splitByComma);
+  $commaQueries: mapSplitByComma($value);
   //@debug $commaQueries;
   @return $commaQueries;
 }
@@ -152,8 +155,8 @@
 // $merged-list: join($mq-list, $retina-mq-list, comma);
   
   //@debug $merged-list;
-  $flatten-list: _flatten($mq-list);
-  $string-mq: _join($flatten-list, ", ");
+  $flatten-list: flatten($mq-list);
+  $string-mq: list-join($flatten-list, ", ");
   
   @return $string-mq;
 }

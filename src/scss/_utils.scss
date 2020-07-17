@@ -1,5 +1,105 @@
 
 
+@function flatten($list, $is-deep: false, $is-strict: false, $from-index: 1) {
+  $index: $from-index;
+  $length: length($list);
+  $result-index: 1;
+  $result: ();
+
+  @while ($index <= $length) {
+      $value: nth($list, $index);
+
+     
+          $value-index: 1;
+          $value-length: length($value);
+
+          @while ($value-index <= $value-length) {
+              $result: append($result, nth($value, $value-index));
+              $value-index: $value-index + 1;
+          }
+      
+      $index: $index + 1;
+  }
+
+  @return $result;
+}
+
+@function base-difference($list, $values) {
+  $result: ();
+
+  @each $item in $list {
+      @if not index($values, $item) {
+          $result: append($result, $item);
+      }
+  }
+
+  @return $result;
+}
+
+@function mapParseQuery($values) {
+  $list: ();
+  @each $value in $values {
+    $result: parseQuery($value);
+    $list: append($list, $result);
+  }
+  @return $list;
+}
+@function mapSplitByComma($values) {
+  $list: ();
+  @each $value in $values {
+    $result: splitByComma($value);
+    $list: append($list, $result);
+  }
+  @return $list;
+}
+
+
+@function list-join($list, $separator: '') {
+  $length: length($list);
+
+  @if ($length == 0) {
+      @return '';
+  }
+
+  $result: nth($list, 1);
+
+  @if $length > 1 {
+      @for $index from 2 through $length {
+          $result: $result + $separator + nth($list, $index);
+      }
+  }
+
+  @return $result;
+}
+
+@function explode($string, $delimiter) {
+	$result: ();
+	@if $delimiter == "" {
+		@for $i from 1 through str-length($string) {
+			$result: append($result, str-slice($string, $i, $i));
+		}
+		@return $result;
+	}
+	$exploding: true;
+	@while $exploding {
+		$d-index: str-index($string, $delimiter);
+		@if $d-index {
+			@if $d-index > 1 {
+				$result: append($result, str-slice($string, 1, $d-index - 1));
+				$string: str-slice($string, $d-index + str-length($delimiter));
+			} @else if $d-index == 1 {
+				$string: str-slice($string, 1, $d-index + str-length($delimiter));
+			} @else {
+				$result: append($result, $string);
+				$exploding: false;
+			}
+		} @else {
+			$result: append($result, $string);
+			$exploding: false;
+		}
+	}
+	@return $result;
+}
 
 @function str-replace($string, $search, $replace: '') {
     $index: str-index($string, $search);
@@ -150,7 +250,7 @@
       //$index: index($breakpoints, $breakpoint);
       //$comma: if($index == length($breakpoints), "", ", ");
       $result: "";
-      @if (_size($query) == 0) {
+      @if ($query == false or str-length($query) == 0) {
         $result:"only screen and " + unquote($breakpoint);  
       } @else {
         $result:"only screen and " + $query + " and " + unquote($breakpoint);
