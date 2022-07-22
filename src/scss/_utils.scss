@@ -1,4 +1,4 @@
-
+@use 'sass:math';
 
 @function flatten($list, $is-deep: false, $is-strict: false, $from-index: 1) {
   $index: $from-index;
@@ -282,7 +282,7 @@
   
   @function strip-unit($number) {
     @if type-of($number) == 'number' and not unitless($number) {
-      @return $number / ($number * 0 + 1);
+      @return math.div($number, ($number * 0 + 1));
     }
   
     @return $number;
@@ -294,7 +294,7 @@
     @if $target == 0 {
       @return 0;
     }
-    @return $target / $context * 1rem;
+    @return math.div($target, $context * 1rem);
   }
   
   
