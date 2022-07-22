@@ -294,7 +294,7 @@
     @if $target == 0 {
       @return 0;
     }
-    @return math.div($target, $context * 1rem);
+    @return math.div($target, $context) * 1rem;
   }
   
   
