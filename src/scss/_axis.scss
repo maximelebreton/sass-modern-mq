@@ -95,8 +95,8 @@
     
         @if ($index == 1) {
             $breakpoints: getNameStartBreakpoints($name, $type);
-        } @else if ($index == length($breakpoints-map)) {
-            $breakpoints: getNameEndBreakpoints($name, $type);
+        // } @else if ($index == length($breakpoints-map)) {
+        //     $breakpoints: getNameEndBreakpoints($name, $type);
         } @else {
             $breakpoints: getNameBreakpoints($name, $type);
         }
