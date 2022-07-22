@@ -2,14 +2,14 @@
 
 
 
-$mq-landscape-min-ratio: toString($mq-landscape-ratio-width)/toString($mq-landscape-ratio-height);
-$mq-portrait-min-ratio: toString($mq-portrait-ratio-width)/toString($mq-portrait-ratio-height);
+$mq-landscape-min-ratio: math.div(toString($mq-landscape-ratio-width)/toString($mq-landscape-ratio-height));
+$mq-portrait-min-ratio: math.div(toString($mq-portrait-ratio-width)/toString($mq-portrait-ratio-height));
 
-$mq-landscape-max-ratio: toString($mq-landscape-ratio-width * 1000 + 1)/toString($mq-landscape-ratio-height * 1000 + 1);
-$mq-portrait-max-ratio: toString($mq-portrait-ratio-width * 1000 + 1)/toString($mq-portrait-ratio-height * 1000 + 1);
+$mq-landscape-max-ratio: math.div(toString($mq-landscape-ratio-width * 1000 + 1)/toString($mq-landscape-ratio-height * 1000 + 1));
+$mq-portrait-max-ratio: math.div(toString($mq-portrait-ratio-width * 1000 + 1)/toString($mq-portrait-ratio-height * 1000 + 1));
 
-$mq-portrait-ratio: $mq-portrait-ratio-width / $mq-portrait-ratio-height;
-$mq-landscape-ratio: $mq-landscape-ratio-width / $mq-landscape-ratio-height;
+$mq-portrait-ratio: math.div($mq-portrait-ratio-width / $mq-portrait-ratio-height);
+$mq-landscape-ratio: math.div($mq-landscape-ratio-width / $mq-landscape-ratio-height);
 
 $mq-ratio-breakpoints: (
    square: "(min-aspect-ratio:#{$mq-portrait-max-ratio}) and (max-aspect-ratio:#{$mq-landscape-max-ratio})"
