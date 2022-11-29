@@ -4,19 +4,19 @@
 
 ### 3 main breakpoints, based on aspect-ratio
 
-`landscape`, `square`, `portrait`
+`portrait`, `square`, `landscape`
 
-`███` → `▐█▌` → `█`
+`█` → `▐█▌` → `███`
 
-_`landscape` is the lowest breakpoint\*, and `portrait` is the highest\*\*, **keep this order in mind**_
+_`portrait` is the lowest breakpoint\*, and `landscape` is the highest\*\*, **keep this order in mind**_
 
 ### Combinable with 4 operators\*
 
 `>`, `<`, `>=`, `<=`
 
-examples: `>landscape`, or `<=square`
+examples: `>portrait`, or `<=square`
 
-_\*`landscape` doesn't have `<`, `<=`, & `>=` operators, and \*\*`portrait` doesn't have `>`, `>=`, & `<=` operators_
+_\*`portrait` doesn't have `<`, `<=`, & `>=` operators, and \*\*`landscape` doesn't have `>`, `>=`, & `<=` operators_
 
 ## Install
 
@@ -35,11 +35,11 @@ yarn add sass-modern-mq
   @include mq("landscape") {
     // for landscape only
   }
-  @include mq("<portrait") {
+  @include mq(">portrait") {
     // for square and landscape
   }
   @include mq(">=square") {
-    // for square and portrait
+    // for square and landscape
   }
   @include mq("portrait", "landscape") {
     // for portrait or landscape
@@ -129,9 +129,7 @@ This where **Sass Modern MQ** takes an other approach.
 
 ## Rethinking responsive layouts?
 
-As a senior **webdesigner and front-end developper**, and after integrating many layouts with many breakpoints, I finally came accross this conclusion:
-
-> Every resolution cases can fit in 3 types: **Landscape**, **Square** and **Portrait**
+As a senior **webdesigner and front-end developper**, and after integrating many layouts with many breakpoints, I finally came accross the conclusion that every resolution cases can fit in 3 types: **Landscape**, **Square** and **Portrait**
 
 Wich is a **ratio-based** approach.
 
@@ -152,6 +150,9 @@ Instead of the classical **width-based** approach:
 ```css
 @media (aspect-ratio: 10/8) { ...
 ```
+
+## Changelog
+- 1.0.0 : /!\ the order has changed, before 1.0.0 it was `landscape > square > portrait`, and now it's `portrait > square > landscape`, because it's more intuitive
 
 ## Todo list
 

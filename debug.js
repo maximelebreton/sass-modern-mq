@@ -36,9 +36,9 @@ export class debugSassMqRatio {
 
     html += `<div class="mq-container">
       <div class="mq-ratio-models">
-        <div class="mq-landscape-ratio"></div>
-        <div class="mq-square-ratio"></div>
-        <div class="mq-portrait-ratio"></div>
+      <div class="mq-portrait-ratio"></div>
+      <div class="mq-square-ratio"></div>
+      <div class="mq-landscape-ratio"></div>
       </div>
       <div class="mq-rules">${this.cssVarNames
         .map((name) => `<div class="${name}"></div>`)

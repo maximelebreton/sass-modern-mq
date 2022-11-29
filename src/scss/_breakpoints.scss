@@ -18,16 +18,16 @@ $mq-ratio-breakpoints: (
   ,landscape: "(min-aspect-ratio: #{$mq-landscape-min-ratio})"
   //,square: "not screen and (min-aspect-ratio: #{$mq-landscape-min-ratio})"
 
-  ,'>landscape': "(max-aspect-ratio:#{$mq-landscape-max-ratio})"
+  ,'<landscape': "(max-aspect-ratio:#{$mq-landscape-max-ratio})"
   //,'!landscape': "not (min-aspect-ratio: #{$mq-landscape-min-ratio})"
 
-  ,'>square':  "(max-aspect-ratio:#{$mq-portrait-min-ratio})"
-  ,'>=square': "(max-aspect-ratio:#{$mq-landscape-min-ratio})"
-  ,'<square': "(min-aspect-ratio:#{$mq-landscape-min-ratio})"
-  ,'<=square': "(min-aspect-ratio:#{$mq-portrait-min-ratio})"
+  ,'<=square':  "(max-aspect-ratio:#{$mq-landscape-min-ratio})"
+  ,'<square': "(max-aspect-ratio:#{$mq-portrait-min-ratio})"
+  ,'>=square': "(min-aspect-ratio:#{$mq-portrait-min-ratio})"
+  ,'>square': "(min-aspect-ratio:#{$mq-landscape-min-ratio})"
   //,'!square': "not screen and (min-aspect-ratio:#{$mq-portrait-min-ratio}) and (not max-aspect-ratio:#{$mq-landscape-min-ratio})"
 
-  ,'<portrait': "(min-aspect-ratio:#{$mq-portrait-max-ratio})"
+  ,'>portrait': "(min-aspect-ratio:#{$mq-portrait-max-ratio})"
   //,'!portrait': "not screen and (max-aspect-ratio:#{$mq-portrait-min-ratio})"
 ) !default;
 

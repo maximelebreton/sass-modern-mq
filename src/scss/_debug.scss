@@ -47,6 +47,17 @@
     & > div {
       margin-bottom: .25em;
     }
+
+    
+    [class^="--mq-width-equal"] ~ [class^="--mq-width-greater"]:after, [class^="--mq-width-equal"] ~ [class^="--mq-width-less"]:after {
+      opacity: .66;
+      display: inline-block !important; 
+    }
+    [class^="--mq-width-equal"] ~ [class^="--mq-width-greater-equal"]:after, [class^="--mq-width-equal"] ~ [class^="--mq-width-less-equal"]:after {
+      opacity: .33;
+      display: inline-block !important; 
+    }
+    
   }
 
   .mq-ratio-model {
@@ -107,15 +118,15 @@
         @include mq($screen) {
 
           @if (str-index($screen, 'width') or str-index($screen, 'height')) {
-            // @if (str-index($screen, '>') or str-index($screen, '<')) {
-            //   opacity: .5;
-            //   display: none;
-            // }
-            @if (str-index($screen, '>')) {
-              @at-root [class^="--mq-width"] ~ [class^="--mq-width"] {
-                opacity: 0.25;
-              }
+            @if (str-index($screen, '>') or str-index($screen, '<')) {
+              
+              display: none;
             }
+            // @if (str-index($screen, '>')) {
+            //   @at-root [class^="--mq-width"] {
+            //     opacity: 1;
+            //   }
+            // }
           }
           
           content: "#{$screen}";
