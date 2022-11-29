@@ -152,7 +152,7 @@ Instead of the classical **width-based** approach:
 ```
 
 ## Changelog
-- 1.0.0 : /!\ the order has changed, before 1.0.0 it was `landscape > square > portrait`, and now it's `portrait > square > landscape`, because it's more intuitive
+- 1.0.0 : /!\ the order has changed, before 1.0.0 it was `landscape > square > portrait`, and now it's `portrait > square > landscape`, because it's more intuitive.
 
 ## Todo list
 
