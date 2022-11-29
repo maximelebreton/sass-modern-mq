@@ -1,6 +1,6 @@
 # Media Queries for modern devices!
 
-> **Sass Modern MQ** is a mixin that helps you to create simple and accurate media queries by rethinking layouts as **landscape**, **square** and **portrait**
+> [**Sass Modern MQ**](https://github.com/maximelebreton/sass-modern-mq) is a mixin that helps you to create simple and accurate media queries by rethinking layouts as **landscape**, **square** and **portrait**
 
 ### 3 main breakpoints, based on aspect-ratio
 
