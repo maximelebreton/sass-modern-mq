@@ -92,19 +92,36 @@
     }
   }
 
+
   @each $screen, $size in $mq-breakpoints {
   
     .--mq-#{rename($screen)}::after {
-      @include mq($screen) {
+      // @if (str-index($screen, 'retina')) {
+      //   content: "#{$screen}";
+      //   opacity: .5;
+      //   @include mq($screen) {
+      //     opacity: 1;
+      //   }
+      
+      // } @else {
+        @include mq($screen) {
 
-        @if (str-index($screen, 'width') or str-index($screen, 'height')) {
-          @if (str-index($screen, '>') or str-index($screen, '<')) {
-            opacity: .5;
+          @if (str-index($screen, 'width') or str-index($screen, 'height')) {
+            // @if (str-index($screen, '>') or str-index($screen, '<')) {
+            //   opacity: .5;
+            //   display: none;
+            // }
+            @if (str-index($screen, '>')) {
+              @at-root [class^="--mq-width"] ~ [class^="--mq-width"] {
+                opacity: 0.25;
+              }
+            }
           }
+          
+          content: "#{$screen}";
         }
-        
-        content: "#{$screen}";
-      }
+      //}
+
     }
   }
 
