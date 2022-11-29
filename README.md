@@ -50,6 +50,19 @@ yarn add sass-modern-mq
 }
 ```
 
+Since `1.0.1` you can also use it in `@media`:  
+```scss
+@import "sass-modern-mq";
+
+$my-breakpoint: mq("portrait and width>small");
+
+.my-class {
+  @media ($my-breakpoint) {
+     // yay!
+  }
+}
+```
+
 ## Optional breakpoints: width, height and retina
 
 **Ratios breakpoints** are the main purpose of this library, and in most of the cases it's enough.  
@@ -153,6 +166,7 @@ Instead of the classical **width-based** approach:
 
 ## Changelog
 - 1.0.0 : /!\ the order has changed, before 1.0.0 it was `landscape > square > portrait`, and now it's `portrait > square > landscape`, because it's more intuitive.
+- 1.0.1 : add `mq` function to use it in @media
 
 ## Todo list
 

@@ -1,5 +1,30 @@
+@use 'sass:string';
+
+// Use it as include:
+/* 
+  @include mq("portrait and width>small") {
+      ...  
+  }
+*/
 @mixin mq($value...) {
   @media #{ mq-parse($value) } {
         @content;
     }
   }
+
+
+// Or as media:
+/* 
+  @media (mq("portrait and width>small")) {
+     ...
+  }
+
+  $my-breakpoint: mq("portrait and width>small");
+  @media ($my-breakpoint) {
+     ...
+  }
+*/
+@function mq($value) {
+    $result: string.slice(mq-parse($value), 2, -2);
+    @return $result;
+}
